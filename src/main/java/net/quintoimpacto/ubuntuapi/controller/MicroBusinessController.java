@@ -49,7 +49,15 @@ public class MicroBusinessController {
         return new ResponseEntity<>(microBusiness, HttpStatus.CREATED);
     }
 
-    
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MicroBusinessDTO> getById(@PathVariable Long id) {
+        Optional<MicroBusinessDTO> microBusinessDTO = microBusinessService.findById(id);
+        return microBusinessDTO.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody MicroBusinessDTO microBusinessDTO, @PathVariable Long id){
         String email = getUserPrincipal();
