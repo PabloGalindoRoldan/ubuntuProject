@@ -5,8 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.quintoimpacto.ubuntuapi.dto.ImageDTO;
+import net.quintoimpacto.ubuntuapi.entity.Country;
+import net.quintoimpacto.ubuntuapi.entity.Image;
+import net.quintoimpacto.ubuntuapi.entity.Province;
+import net.quintoimpacto.ubuntuapi.entity.User;
+import net.quintoimpacto.ubuntuapi.entity.enums.Category;
 
 import java.util.List;
+
+
+import jakarta.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -14,8 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MicroBusinessUpdateDTO {
 
-    private Long id;
-
+    @NotNull(message = "Name cannot be null")
     private String name;
 
     private String description;
@@ -24,13 +31,11 @@ public class MicroBusinessUpdateDTO {
 
     private String subTitle;
 
-    private String category;
+    private Category category;
 
-    private String userFirst_name;
+    private User user;
 
-    private String provinceName;
+    private Province province;
 
-    private String provinceCountryName;
-
-    private List<ImageDTO> images; // Lista de imágenes relacionadas
+    private List<Image> images; 
 }

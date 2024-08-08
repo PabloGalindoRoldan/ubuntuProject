@@ -15,13 +15,13 @@ import net.quintoimpacto.ubuntuapi.entity.enums.Category;
 public interface IMicroBusinessService {
     
     public MicroBusinessShowDto save(MicroBusinessRegisterDTO microBusinessDTO);
-    public void update(MicroBusinessDTO microBusinessDTO, Long id);
+    public void update(MicroBusinessUpdateDTO microBusinessDTO, Long id);
     public Optional<MicroBusinessDTO> findById(Long id);
     public Set<MicroBusinessDTO> findByName(String name);
     public List<MicroBusinessDTO> findByCategory(Category category);
     public List<CategoryDTO> getAllCategory();
     public Set<MicroBusinessDTO> findByUserEmailMicroBusiness(String email);
     public Optional<MicroBusiness> findByIdAndUserEmail(Long id, String email);
-    public void delete(Long id, String email);
+    public void delete(Long id);
     public List<MicroBusinessDTO> findAll();
 }

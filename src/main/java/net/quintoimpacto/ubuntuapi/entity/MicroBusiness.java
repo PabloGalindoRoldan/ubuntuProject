@@ -52,15 +52,6 @@ public class MicroBusiness {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @Transient
-    private String city;
-
-    @Transient
-    private List<String>  urlImage;
-
-    @Transient
-    private String contactMessage;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false )
     private User user;

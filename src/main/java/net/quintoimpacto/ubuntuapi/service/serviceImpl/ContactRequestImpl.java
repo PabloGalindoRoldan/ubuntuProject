@@ -39,7 +39,7 @@ public class ContactRequestImpl implements IContactRequestService {
 
     @Override
     public void update(ContactRequestDTO contactDTO, Long id) {
-        modelMapper.getConfiguration().isSkipNullEnabled();
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
         var contactRequest = contactRepository.findById(id).get();
         modelMapper.map(contactDTO,contactRequest);
         contactRepository.save(contactRequest);

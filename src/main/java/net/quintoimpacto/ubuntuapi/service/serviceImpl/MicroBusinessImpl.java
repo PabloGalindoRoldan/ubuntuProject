@@ -43,16 +43,16 @@ public class MicroBusinessImpl implements IMicroBusinessService {
     }
 
     @Override
-    public void update(MicroBusinessDTO microBusinessDTO, Long id) {
-        modelMapper.getConfiguration().isSkipNullEnabled();
-        var microBusinessToUpdate = microBusinessRepository.findById(id).get();
+    public void update(MicroBusinessUpdateDTO microBusinessDTO, Long id) {
+        var microBusinessToUpdate = microBusinessRepository.findByIdAndDeletedFalse(id).get();
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(microBusinessDTO, microBusinessToUpdate);
         microBusinessRepository.save(microBusinessToUpdate);
     }
 
     @Override
     public Optional<MicroBusinessDTO> findById(Long id) {
-        Optional<MicroBusiness> microBusinessOptional = microBusinessRepository.findById(id);
+        Optional<MicroBusiness> microBusinessOptional = microBusinessRepository.findByIdAndDeletedFalse(id);
         if (microBusinessOptional.isPresent()) {
             var microBusiness = microBusinessOptional.get();
             var dto = modelMapper.map(microBusiness, MicroBusinessDTO.class);
@@ -99,8 +99,8 @@ public class MicroBusinessImpl implements IMicroBusinessService {
 
     @Override
     @Transactional
-    public void delete(Long id, String email) {
-        var micro = microBusinessRepository.findByIdAndUserEmailAndDeletedFalse(id, email).get();
+    public void delete(Long id) {
+        var micro = microBusinessRepository.findByIdAndDeletedFalse(id).get();
         micro.setDeleted(true);
     }
 
