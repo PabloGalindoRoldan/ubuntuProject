@@ -48,9 +48,10 @@ public class PublicationsController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/incrementViewCount/{id}")
-    public ResponseEntity<?> incrementViewCount(@PathVariable Long id) {
+    @PutMapping("/{id}/incrementViewCount")
+    public ResponseEntity<String> incrementViewCount(@PathVariable Long id) {
         publicationsService.incrementViewCount(id);
-        return ResponseEntity.ok().build(); //aca debo agregar que al estado me muestre los datos del dto
+        return ResponseEntity.ok("View count incremented successfully");
     }
+    
 }
