@@ -10,8 +10,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.google.api.client.http.HttpMethods;
-
 import net.quintoimpacto.ubuntuapi.security.jwt.JwtTokenAuthenticationFilter;
 
 @Configuration
@@ -38,13 +36,13 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/", "/login/oauth2/**", "/error").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/countries", "/provinces", "/images", "images/{id}", "/microbusiness/findAll", "/microbusiness/").permitAll()
-                                .requestMatchers(HttpMethod.GET,  "/questions/initial", "/questions/subquestions/{answerId}", "/answer/all").permitAll()
+                                .requestMatchers(HttpMethod.GET,  "/questions/initial", "/questions/subquestions/{answerId}", "/answer/all", "/getAllPublications", "/getAllPublications/{id}").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/contact/").permitAll()
                                 .requestMatchers("/contact/**").hasRole("ADMIN")
                                 .requestMatchers("/user").hasRole("USER")
                                 .requestMatchers("/admin").hasRole("ADMIN")
                                 .requestMatchers("/microbusiness/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/questions/create", "/answer/create").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/questions/create", "/answer/create", "/createPublication").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/questions/update/{id}").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                                 //.requestMatchers("/images","/**").hasRole("ADMIN")

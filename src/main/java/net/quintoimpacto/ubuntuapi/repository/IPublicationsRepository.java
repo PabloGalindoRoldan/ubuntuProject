@@ -19,7 +19,7 @@ public interface IPublicationsRepository extends JpaRepository<Publications, Lon
     List<Publications> findByOrderByCreatedAtDesc();
 
     @Modifying
-    @Query("UPDATE Publications p SET P.viewCount = P.viewCount + 1 WHERE P.id = :id")
+    @Query("UPDATE Publications p SET p.viewCount = p.viewCount + 1 WHERE p.id = :id")
     void incrementViewCount(Long id);
     
 }

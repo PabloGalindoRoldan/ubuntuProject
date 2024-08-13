@@ -4,15 +4,7 @@ import net.quintoimpacto.ubuntuapi.entity.Publications;
 import net.quintoimpacto.ubuntuapi.service.IPublicationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,7 +26,9 @@ public class PublicationsController {
 
     @GetMapping("/getAllPublications/{id}")
     public Publications getPublicationById(@PathVariable Long id) {
-        return publicationsService.getPublicationById(id);
+        Publications publication = publicationsService.getPublicationById(id);
+        publicationsService.incrementViewCount(id);
+        return publication;
     }
 
     @PostMapping("/createPublication")
@@ -48,10 +42,15 @@ public class PublicationsController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/incrementViewCount")
-    public ResponseEntity<String> incrementViewCount(@PathVariable Long id) {
-        publicationsService.incrementViewCount(id);
-        return ResponseEntity.ok("View count incremented successfully");
+    @PutMapping("/editPublication/{id}")
+    public ResponseEntity<Publications> editPublication(@PathVariable Long id, @RequestBody Publications updatedPublication) {
+        Publications existingPublication = publicationsService.getPublicationById(id);
+
+        existingPublication.setTitle(updatedPublication.getTitle());
+        existingPublication.setDescription(updatedPublication.getDescription());
+        existingPublication.setImages(updatedPublication.getImages());
+
+        Publications savedPublication = publicationsService.createPublication(existingPublication);
+        return ResponseEntity.ok(savedPublication);
     }
-    
 }
