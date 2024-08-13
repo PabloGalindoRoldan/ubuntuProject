@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.37, for Win64 (x86_64)
+contact_requestscontact_requests-- MySQL dump 10.13  Distrib 8.0.37, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ubuntudb
 -- ------------------------------------------------------
@@ -13,7 +13,7 @@
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;ubuntu
 
 --
 -- Table structure for table `countries`
@@ -130,10 +130,25 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (0,1,'jhan@gmail.com','Jhan','Ca','32516136513','ADMIN'),(0,2,'maricarolinagomez88@gmail.com','Carolina','Gomez','1234567890','ADMIN'),(0,3,'alonngadea@gmail.com','Alondra','Gadea','0987654321','ADMIN'),(0,4,'walterportadev@gmail.com','Walter','Porta','1112223333','ADMIN'),(0,5,'maurojim123@gmail.com','Mauro','Jim','4445556666','ADMIN'),(0,6,'pablogalindo90@gmail.com','Pablo','Galindo','7778889999','ADMIN'),(0,7,'ubuntuorganizationproyect@gmail.com','Ubuntu','Organization','33322211151','ADMIN'),(0,8,'grace.moore@example.com','Grace','Moore','6665554444','ADMIN'),(0,9,'hank.taylor@example.com','Hank','Taylor','9998887777','ADMIN'),(0,10,'ivy.anderson@example.com','Ivy','Anderson','2223334445','ADMIN');
+INSERT INTO `users` VALUES (0,1,'jhan@gmail.com','Jhan','Ca','32516136513','ADMIN'),(0,2,'mariacarolinagomez88@gmail.com','Carolina','Gomez','1234567890','ADMIN'),(0,3,'alonngadea@gmail.com','Alondra','Gadea','0987654321','ADMIN'),(0,4,'walterportadev@gmail.com','Walter','Porta','1112223333','ADMIN'),(0,5,'maurojim123@gmail.com','Mauro','Jim','4445556666','ADMIN'),(0,6,'pablogalindo90@gmail.com','Pablo','Galindo','7778889999','ADMIN'),(0,7,'ubuntuorganizationproyect@gmail.com','Ubuntu','Organization','33322211151','ADMIN'),(0,8,'grace.moore@example.com','Grace','Moore','6665554444','ADMIN'),(0,9,'hank.taylor@example.com','Hank','Taylor','9998887777','ADMIN'),(0,10,'ivy.anderson@example.com','Ivy','Anderson','2223334445','ADMIN');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+
+INSERT INTO contact_requests(full_name, email, phone_number, message, state_request, micro_id) 
+VALUES 
+('Juan', 'email1@example.com', '123-456-7891', 'Mensaje 1', false, NULL),
+('david', 'email2@example.com', '123-456-7892', 'Mensaje 2', false, NULL),
+('Pedro', 'email3@example.com', '123-456-7893', 'Mensaje 3', false, NULL),
+('Raul', 'email4@example.com', '123-456-7894', 'Mensaje 4', false, NULL),
+('David', 'email5@example.com', '123-456-7895', 'Mensaje 5', false, NULL),
+('Jose', 'email6@example.com', '123-456-7896', 'Mensaje 6', false, NULL),
+('Juan', 'email7@example.com', '123-456-7897', 'Mensaje 7', false, NULL),
+('Nombre 8', 'email8@example.com', '123-456-7898', 'Mensaje 8', false, NULL),
+('Pedro', 'email9@example.com', '123-456-7899', 'Mensaje 9', false, NULL),
+('Nombre 10', 'email10@example.com', '123-456-7890', 'Mensaje 10', false, NULL);
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -144,3 +159,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-07-11 10:30:51
+
