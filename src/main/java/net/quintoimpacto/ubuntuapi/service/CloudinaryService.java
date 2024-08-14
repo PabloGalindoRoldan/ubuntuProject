@@ -23,7 +23,12 @@ public class CloudinaryService {
     }
 
     public Map uploadBase64File(String base64File) throws IOException {
-        byte[] decodedBytes = Base64.getDecoder().decode(base64File.split(",")[1]);
+        // Verificar si el string contiene un encabezado de datos Base64 y eliminarlo si es necesario
+        if (base64File.contains(",")) {
+            base64File = base64File.split(",")[1]; // Extraer solo la parte Base64
+        }
+
+        byte[] decodedBytes = Base64.getDecoder().decode(base64File);
         return cloudinary.uploader().upload(decodedBytes, ObjectUtils.emptyMap());
     }
 

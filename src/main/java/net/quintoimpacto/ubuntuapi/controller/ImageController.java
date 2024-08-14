@@ -30,8 +30,7 @@ public class ImageController {
             image2DTO.setPublicId((String) result.get("public_id"));
             image2DTO.setUrl((String) result.get("url"));
 
-            // Asociar la imagen al microemprendimiento antes de guardarla
-            ImageDTO savedImage = imageService.saveImageWithMicroBusiness(imageDTO.getMicroBusinessId(), image2DTO );
+            ImageDTO savedImage = imageService.saveImageWithMicroBusiness(imageDTO.getMicroBusinessId(), image2DTO);
 
             System.out.println("Imagen Base64 subida y guardada en la base de datos con ID: " + savedImage.getId() + " y asociada al microemprendimiento con ID: " + imageDTO.getMicroBusinessId());
 
@@ -66,13 +65,16 @@ public class ImageController {
         return ResponseEntity.ok(images);
     }
 
-    @PutMapping("/updateBase64")
-    public ResponseEntity<?> updateImageBase64(@RequestParam("id") Long id, @RequestParam("fileBase64") String fileBase64) {
+    @PutMapping("/updateBase64/{id}")
+    public ResponseEntity<?> updateImageBase64(@PathVariable Long id, @RequestBody ImageDTO imageDTO) {
         try {
+            String fileBase64 = imageDTO.getFileBase64();
+
             Optional<ImageDTO> existingImageOptional = imageService.findImageById(id);
             if (!existingImageOptional.isPresent()) {
                 return ResponseEntity.notFound().build();
             }
+
             ImageDTO existingImage = existingImageOptional.get();
 
             // Eliminar la imagen anterior de Cloudinary
@@ -84,9 +86,8 @@ public class ImageController {
             // Actualizar los detalles de la imagen en la base de datos
             existingImage.setPublicId((String) result.get("public_id"));
             existingImage.setUrl((String) result.get("url"));
-            ImageDTO updatedImage = imageService.updateImage(id, existingImage.getUrl(), existingImage.getPublicId());
 
-            System.out.println("Imagen actualizada con ID: " + updatedImage.getId() + " y asociada al microemprendimiento con ID: " + updatedImage.getMicroBusinessId());
+            ImageDTO updatedImage = imageService.updateImage(id, existingImage.getUrl(), existingImage.getPublicId());
 
             return ResponseEntity.ok(updatedImage);
         } catch (Exception e) {
@@ -95,9 +96,18 @@ public class ImageController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteImage(@PathVariable Long id) {
-        imageService.deleteImage(id);
-        System.out.println("Imagen eliminada con ID: " + id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteImage(@PathVariable Long id) {
+        try {
+            // Eliminar la imagen de la base de datos y de Cloudinary
+            imageService.deleteImage(id);
+            System.out.println("Imagen eliminada con ID: " + id);
+
+            // Devolver una respuesta 200 OK con un mensaje personalizado
+            return ResponseEntity.ok("Imagen eliminada con ID: " + id);
+        } catch (Exception e) {
+            // Si ocurre algún error, devolver una respuesta 400 con el mensaje de error
+            return ResponseEntity.badRequest().body("No se pudo eliminar la imagen con ID: " + id + ". Error: " + e.getMessage());
+        }
     }
+
 }
