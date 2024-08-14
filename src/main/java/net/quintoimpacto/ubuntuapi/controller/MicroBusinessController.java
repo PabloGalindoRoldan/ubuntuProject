@@ -118,6 +118,7 @@ public class MicroBusinessController {
         } 
     }
 
+   
     private String getUserPrincipal(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();
