@@ -138,18 +138,18 @@ UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 
-INSERT INTO contact_requests(full_name, email, phone_number, message, state_request, micro_id) 
+INSERT INTO contact_requests(date_created, full_name, email, phone_number, message, state_request, micro_id) 
 VALUES 
-('Juan', 'email1@example.com', '123-456-7891', 'Mensaje 1', false, NULL),
-('david', 'email2@example.com', '123-456-7892', 'Mensaje 2', false, NULL),
-('Pedro', 'email3@example.com', '123-456-7893', 'Mensaje 3', false, NULL),
-('Raul', 'email4@example.com', '123-456-7894', 'Mensaje 4', false, NULL),
-('David', 'email5@example.com', '123-456-7895', 'Mensaje 5', false, NULL),
-('Jose', 'email6@example.com', '123-456-7896', 'Mensaje 6', false, NULL),
-('Juan', 'email7@example.com', '123-456-7897', 'Mensaje 7', false, NULL),
-('Nombre 8', 'email8@example.com', '123-456-7898', 'Mensaje 8', false, NULL),
-('Pedro', 'email9@example.com', '123-456-7899', 'Mensaje 9', false, NULL),
-('Nombre 10', 'email10@example.com', '123-456-7890', 'Mensaje 10', false, NULL);
+('2024-08-15', 'Juan', 'email1@example.com', '123-456-7891', 'Mensaje 1', false, 1),
+('2024-08-15','david', 'email2@example.com', '123-456-7892', 'Mensaje 2', false, 2),
+('2024-08-14','Pedro', 'email3@example.com', '123-456-7893', 'Mensaje 3', false, 3),
+('2024-08-15','Raul', 'email4@example.com', '123-456-7894', 'Mensaje 4', false, 4),
+('2024-08-15','David', 'email5@example.com', '123-456-7895', 'Mensaje 5', false, 5),
+('2024-08-13','Jose', 'email6@example.com', '123-456-7896', 'Mensaje 6', false, 6),
+('2024-08-15','Juan', 'email7@example.com', '123-456-7897', 'Mensaje 7', false, 7),
+('2024-08-15','Nombre 8', 'email8@example.com', '123-456-7898', 'Mensaje 8', false, 9),
+('2024-08-12','Pedro', 'email9@example.com', '123-456-7899', 'Mensaje 9', false, 8),
+('2024-08-13','Nombre 10', 'email10@example.com', '123-456-7890', 'Mensaje 10', false, 10);
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

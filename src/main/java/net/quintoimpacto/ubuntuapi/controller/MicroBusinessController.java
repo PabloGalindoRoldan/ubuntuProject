@@ -78,7 +78,7 @@ public class MicroBusinessController {
         return  ResponseEntity.status(HttpStatus.OK).body(listMicroBusiness);
     }
 
-
+   
     @GetMapping("/")
     public ResponseEntity<?> searhByName(@RequestParam("search") String name) {
         var setMicroBusinessDTO = microBusinessService.findByName(name);
@@ -117,11 +117,10 @@ public class MicroBusinessController {
             return ResponseEntity.notFound().build();
         } 
     }
-
    
     private String getUserPrincipal(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();
     }
-   
+
 }
