@@ -1,24 +1,17 @@
 package net.quintoimpacto.ubuntuapi.service;
 
-import net.quintoimpacto.ubuntuapi.entity.Publications;
-
-
 import java.util.List;
 
+import net.quintoimpacto.ubuntuapi.dto.PublicationDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface IPublicationsService {
-
-    List<Publications> getAllActivePublications();
-
-    Publications getPublicationById(Long id);
-
-    Publications createPublication(Publications publication);
-
+    PublicationDTO createPublication(PublicationDTO publicationDTO);
+    PublicationDTO updatePublication(Long id, PublicationDTO publicationDTO);
+    List<PublicationDTO> getAllPublications();
     void deletePublication(Long id);
+    PublicationDTO getPublicationById(Long id);
+    Page<PublicationDTO> getTopViewedPublications(Pageable pageable);
 
-    void incrementViewCount(Long id);
-
-    List<Publications> searchPublicationsByTitle(String title);
-
-    List<Publications> getPublicationsByUserId(Long userId);
-    
-} 
+}

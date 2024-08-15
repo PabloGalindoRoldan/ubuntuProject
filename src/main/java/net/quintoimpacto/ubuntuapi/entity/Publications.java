@@ -1,6 +1,6 @@
 package net.quintoimpacto.ubuntuapi.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,11 +41,11 @@ public class Publications {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Titulo no puede estar vacio")
+    @NotNull
     private String title;
 
-    @NotNull(message = "Descripcion no puede estar vacio")
-    @Size (max = 2000, message = "La descripcion no puede ser mayor a 2000 caracteres")
+    @NotNull
+    @Size (max = 2000)
     private String description;
 
     @Column(columnDefinition = "boolean default false")
@@ -53,15 +53,15 @@ public class Publications {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(columnDefinition = "bigint default 0")
     private Long viewCount;
 
-    @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Image> images;
 }

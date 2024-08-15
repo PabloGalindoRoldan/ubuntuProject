@@ -1,10 +1,13 @@
 package net.quintoimpacto.ubuntuapi.controller;
 
-import net.quintoimpacto.ubuntuapi.entity.Publications;
+import net.quintoimpacto.ubuntuapi.dto.PublicationDTO;
 import net.quintoimpacto.ubuntuapi.service.IPublicationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,45 +15,38 @@ import java.util.List;
 @RequestMapping("/publications")
 public class PublicationsController {
 
-    private final IPublicationsService publicationsService;
-
     @Autowired
-    public PublicationsController(IPublicationsService publicationsService) {
-        this.publicationsService = publicationsService;
+    private IPublicationsService publicationsService;
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/createPublication")
+    public ResponseEntity<PublicationDTO> createPublication(@RequestBody PublicationDTO publicationDTO) {
+        return ResponseEntity.ok(publicationsService.createPublication(publicationDTO));
     }
 
-    @GetMapping("/getAllPublications")
-    public List<Publications> getAllPublications() {
-        return publicationsService.getAllActivePublications();
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PublicationDTO> updatePublication(@PathVariable Long id, @RequestBody PublicationDTO publicationDTO) {
+        return ResponseEntity.ok(publicationsService.updatePublication(id, publicationDTO));
     }
 
     @GetMapping("/getAllPublications/{id}")
-    public Publications getPublicationById(@PathVariable Long id) {
-        Publications publication = publicationsService.getPublicationById(id);
-        publicationsService.incrementViewCount(id);
-        return publication;
+    public ResponseEntity<PublicationDTO> getPublicationById(@PathVariable Long id) {
+        return ResponseEntity.ok(publicationsService.getPublicationById(id));
     }
 
-    @PostMapping("/createPublication")
-    public Publications createPublication(@RequestBody Publications publication) {
-        return publicationsService.createPublication(publication);
+    @GetMapping("/getAllPublications")
+    public ResponseEntity<List<PublicationDTO>> getAllPublications() {
+        return ResponseEntity.ok(publicationsService.getAllPublications());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePublication(@PathVariable Long id) {
+    @GetMapping("/topViewed")
+    public ResponseEntity<Page<PublicationDTO>> getTopViewedPublications(Pageable pageable) {
+    return ResponseEntity.ok(publicationsService.getTopViewedPublications(pageable));
+}
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deletePublication(@PathVariable Long id) {
         publicationsService.deletePublication(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/editPublication/{id}")
-    public ResponseEntity<Publications> editPublication(@PathVariable Long id, @RequestBody Publications updatedPublication) {
-        Publications existingPublication = publicationsService.getPublicationById(id);
-
-        existingPublication.setTitle(updatedPublication.getTitle());
-        existingPublication.setDescription(updatedPublication.getDescription());
-        existingPublication.setImages(updatedPublication.getImages());
-
-        Publications savedPublication = publicationsService.createPublication(existingPublication);
-        return ResponseEntity.ok(savedPublication);
+        return ResponseEntity.noContent().build();
     }
 }
