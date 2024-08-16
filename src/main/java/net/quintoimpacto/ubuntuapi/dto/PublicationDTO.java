@@ -4,6 +4,8 @@ package net.quintoimpacto.ubuntuapi.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -33,6 +35,10 @@ public class PublicationDTO {
 
     private LocalDate createAt;
     private Long viewCount;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
+
+    
     private List<ImageDTO> images;
 }

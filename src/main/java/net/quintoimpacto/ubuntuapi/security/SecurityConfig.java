@@ -43,7 +43,8 @@ public class SecurityConfig {
                                 .requestMatchers("/admin").hasRole("ADMIN")
                                 .requestMatchers("/microbusiness/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/questions/create", "/answer/create", "/createPublication").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/questions/update/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/questions/update/{id}", "/updatepubs/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/delete/{id}").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                                 //.requestMatchers("/images","/**").hasRole("ADMIN")
 

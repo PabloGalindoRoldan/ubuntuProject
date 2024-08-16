@@ -6,6 +6,8 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,7 +51,7 @@ public class Publications {
     private String description;
 
     @Column(columnDefinition = "boolean default false")
-    private boolean deleted;
+    private boolean deleted = false;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -57,6 +59,7 @@ public class Publications {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @Column(columnDefinition = "bigint default 0")
