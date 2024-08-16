@@ -49,7 +49,15 @@ public class MicroBusinessController {
         return new ResponseEntity<>(microBusiness, HttpStatus.CREATED);
     }
 
-    
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MicroBusinessDTO> getById(@PathVariable Long id) {
+        Optional<MicroBusinessDTO> microBusinessDTO = microBusinessService.findById(id);
+        return microBusinessDTO.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody MicroBusinessUpdateDTO microBusinessDTO, @PathVariable Long id){
         //String email = getUserPrincipal();
@@ -70,13 +78,7 @@ public class MicroBusinessController {
         return  ResponseEntity.status(HttpStatus.OK).body(listMicroBusiness);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MicroBusinessDTO> getById(@PathVariable Long id) {
-        Optional<MicroBusinessDTO> microBusinessDTO = microBusinessService.findById(id);
-        return microBusinessDTO.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
+   
     @GetMapping("/")
     public ResponseEntity<?> searhByName(@RequestParam("search") String name) {
         var setMicroBusinessDTO = microBusinessService.findByName(name);
@@ -115,14 +117,7 @@ public class MicroBusinessController {
             return ResponseEntity.notFound().build();
         } 
     }
-
-    // @GetMapping("/{id}")
-    // public ResponseEntity<MicroBusinessDTO> getById(@PathVariable Long id) {
-    //     Optional<MicroBusinessDTO> microBusinessDTO = microBusinessService.findById(id);
-    //     return microBusinessDTO.map(ResponseEntity::ok)
-    //             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    // }
-
+   
     private String getUserPrincipal(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();
