@@ -37,5 +37,9 @@ public class MicroBusinessUpdateDTO {
 
     private Province province;
 
-    private List<Image> images; 
+    private List<Image> images;
+
+    private boolean managed;
+
+    private boolean deleted;
 }

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 import org.hibernate.annotations.DynamicInsert;
-
+import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotBlank;
@@ -66,5 +66,14 @@ public class MicroBusiness {
 
     @OneToMany(mappedBy = "microBusiness")
     private List<Image> images;
+
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = LocalDateTime.now();
+    }
+
 }
 

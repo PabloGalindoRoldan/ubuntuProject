@@ -47,25 +47,27 @@ DROP TABLE IF EXISTS `micro_businesses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `micro_businesses` (
-                                    `deleted` tinyint(1) DEFAULT 0,
-                                    `managed` tinyint(1) DEFAULT 0,
-                                    `country_id` bigint(20) DEFAULT NULL,
-                                    `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                                    `province_id` bigint(20) NOT NULL,
-                                    `user_id` bigint(20) NOT NULL,
-                                    `description` varchar(255) DEFAULT NULL,
-                                    `more_information` varchar(255) DEFAULT NULL,
-                                    `name` varchar(255) NOT NULL,
-                                    `sub_title` varchar(255) DEFAULT NULL,
-                                    `category` enum('AGROECOLOGIA_ORGANICOS_ALIMENTACION_SALUDABLE','CONSERVACION_REGENERACION_SERVICIOS_ECOSISTEMICOS','ECONOMIA_SOCIAL_DESARROLLO_LOCAL_INCLUSION_FINANCIERA','EMPRESAS_ORGANISMOS_DE_IMPACTO_ECONOMIA_CIRCULAR') NOT NULL,
-                                    PRIMARY KEY (`id`),
-                                    KEY `FKncj5mjjf3xtx78mle9jp1y2r7` (`country_id`),
-                                    KEY `FK4q1vk89tnp4su6hvoelp8w71x` (`province_id`),
-                                    KEY `FKh8mhfpjtwthp36rkw98ql7s4k` (`user_id`),
-                                    CONSTRAINT `FK4q1vk89tnp4su6hvoelp8w71x` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`),
-                                    CONSTRAINT `FKh8mhfpjtwthp36rkw98ql7s4k` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-                                    CONSTRAINT `FKncj5mjjf3xtx78mle9jp1y2r7` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`)
+    `deleted` TINYINT(1) DEFAULT '0',
+    `managed` TINYINT(1) DEFAULT '0',
+    `country_id` BIGINT(20) DEFAULT NULL,
+    `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+    `province_id` BIGINT(20) NOT NULL,
+    `user_id` BIGINT(20) NOT NULL,
+    `description` VARCHAR(255) DEFAULT NULL,
+    `more_information` VARCHAR(255) DEFAULT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `sub_title` VARCHAR(255) DEFAULT NULL,
+    `category` ENUM('AGROECOLOGIA_ORGANICOS_ALIMENTACION_SALUDABLE','CONSERVACION_REGENERACION_SERVICIOS_ECOSISTEMICOS','ECONOMIA_SOCIAL_DESARROLLO_LOCAL_INCLUSION_FINANCIERA','EMPRESAS_ORGANISMOS_DE_IMPACTO_ECONOMIA_CIRCULAR') NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `FKncj5mjjf3xtx78mle9jp1y2r7` (`country_id`),
+    INDEX `FK4q1vk89tnp4su6hvoelp8w71x` (`province_id`),
+    INDEX `FKh8mhfpjtwthp36rkw98ql7s4k` (`user_id`),
+    CONSTRAINT `FK4q1vk89tnp4su6hvoelp8w71x` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT `FKh8mhfpjtwthp36rkw98ql7s4k` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT `FKncj5mjjf3xtx78mle9jp1y2r7` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE RESTRICT ON DELETE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +76,7 @@ CREATE TABLE `micro_businesses` (
 
 LOCK TABLES `micro_businesses` WRITE;
 /*!40000 ALTER TABLE `micro_businesses` DISABLE KEYS */;
-INSERT INTO `micro_businesses` VALUES (0,0,NULL,1,1,1,'Sustainable environmental solutions','Offering eco-friendly products and services','EcoGreen Solutions','Pioneers in Eco-Friendly Solutions','ECONOMIA_SOCIAL_DESARROLLO_LOCAL_INCLUSION_FINANCIERA'),(0,0,NULL,2,2,2,'Innovative agricultural practices','Promoting organic farming techniques','AgroHarvest Co.','Leaders in Organic Farming','AGROECOLOGIA_ORGANICOS_ALIMENTACION_SALUDABLE'),(0,0,NULL,3,3,3,'Protecting natural habitats','Programs for wildlife conservation','ConserveNature','Champions of Wildlife Conservation','CONSERVACION_REGENERACION_SERVICIOS_ECOSISTEMICOS'),(0,0,NULL,4,4,4,'Business solutions for social good','Consulting for sustainable development','Impact Innovators','Advancing Social Impact through Business','EMPRESAS_ORGANISMOS_DE_IMPACTO_ECONOMIA_CIRCULAR'),(0,0,NULL,5,5,5,'Urban gardening and farming','Workshops and supplies for urban agriculture','GreenThumb Gardens','Empowering Urban Gardeners','ECONOMIA_SOCIAL_DESARROLLO_LOCAL_INCLUSION_FINANCIERA'),(0,0,NULL,6,6,6,'Eco-friendly farming solutions','Supporting local farmers with green technology','BioFarm Enterprises','Innovators in Green Farming Technology','AGROECOLOGIA_ORGANICOS_ALIMENTACION_SALUDABLE'),(0,0,NULL,7,7,7,'Wildlife protection initiatives','Education and advocacy for endangered species','Wildlife Warriors','Protectors of Endangered Species','CONSERVACION_REGENERACION_SERVICIOS_ECOSISTEMICOS'),(0,0,NULL,8,8,8,'Future-proof business practices','Consulting for long-term sustainability','Sustainable Futures','Experts in Sustainable Business Practices','EMPRESAS_ORGANISMOS_DE_IMPACTO_ECONOMIA_CIRCULAR'),(0,0,NULL,9,9,9,'Environmental care and awareness','Campaigns to increase environmental consciousness','Nature Nurturers','Promoting Environmental Awareness','ECONOMIA_SOCIAL_DESARROLLO_LOCAL_INCLUSION_FINANCIERA'),(0,0,NULL,10,10,10,'Advanced agricultural techniques','Promoting sustainable farming methods','EcoFarm Solutions','Pioneers in Sustainable Agriculture','AGROECOLOGIA_ORGANICOS_ALIMENTACION_SALUDABLE');
+INSERT INTO `micro_businesses` (deleted, managed, country_id, created_date, province_id, user_id, description, more_information, name, sub_title, category) VALUES (0, 0, NULL, '2024-01-05 12:00:00', 1, 1, 'Sustainable environmental solutions', 'Offering eco-friendly products and services', 'EcoGreen Solutions', 'Pioneers in Eco-Friendly Solutions', 'ECONOMIA_SOCIAL_DESARROLLO_LOCAL_INCLUSION_FINANCIERA'), (0, 0, NULL, '2024-02-10 14:30:00', 2, 2, 'Innovative agricultural practices', 'Promoting organic farming techniques', 'AgroHarvest Co.', 'Leaders in Organic Farming', 'AGROECOLOGIA_ORGANICOS_ALIMENTACION_SALUDABLE'), (0, 0, NULL, '2024-03-15 09:45:00', 3, 3, 'Protecting natural habitats', 'Programs for wildlife conservation', 'ConserveNature', 'Champions of Wildlife Conservation', 'CONSERVACION_REGENERACION_SERVICIOS_ECOSISTEMICOS'), (0, 0, NULL, '2024-04-20 11:20:00', 4, 4, 'Business solutions for social good', 'Consulting for sustainable development', 'Impact Innovators', 'Advancing Social Impact through Business', 'EMPRESAS_ORGANISMOS_DE_IMPACTO_ECONOMIA_CIRCULAR'), (0, 0, NULL, '2024-05-25 08:10:00', 5, 5, 'Urban gardening and farming', 'Workshops and supplies for urban agriculture', 'GreenThumb Gardens', 'Empowering Urban Gardeners', 'ECONOMIA_SOCIAL_DESARROLLO_LOCAL_INCLUSION_FINANCIERA'), (0, 0, NULL, '2024-06-30 13:50:00', 6, 6, 'Eco-friendly farming solutions', 'Supporting local farmers with green technology', 'BioFarm Enterprises', 'Innovators in Green Farming Technology', 'AGROECOLOGIA_ORGANICOS_ALIMENTACION_SALUDABLE'), (0, 0, NULL, '2024-07-10 07:30:00', 7, 7, 'Wildlife protection initiatives', 'Education and advocacy for endangered species', 'Wildlife Warriors', 'Protectors of Endangered Species', 'CONSERVACION_REGENERACION_SERVICIOS_ECOSISTEMICOS'), (0, 0, NULL, '2024-07-10 09:30:00', 8, 8, 'Future-proof business practices', 'Consulting for long-term sustainability', 'Sustainable Futures', 'Experts in Sustainable Business Practices', 'EMPRESAS_ORGANISMOS_DE_IMPACTO_ECONOMIA_CIRCULAR'), (0, 0, NULL, '2024-07-10 17:30:00', 9, 9, 'Environmental care and awareness', 'Campaigns to increase environmental consciousness', 'Nature Nurturers', 'Promoting Environmental Awareness', 'ECONOMIA_SOCIAL_DESARROLLO_LOCAL_INCLUSION_FINANCIERA'), (0, 0, NULL, NOW(), 10, 10, 'Advanced agricultural techniques', 'Promoting sustainable farming methods', 'EcoFarm Solutions', 'Pioneers in Sustainable Agriculture', 'AGROECOLOGIA_ORGANICOS_ALIMENTACION_SALUDABLE');
 /*!40000 ALTER TABLE `micro_businesses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,18 +138,18 @@ UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 
-INSERT INTO contact_requests(full_name, email, phone_number, message, state_request, micro_id) 
+INSERT INTO contact_requests(date_created, full_name, email, phone_number, message, state_request, micro_id) 
 VALUES 
-('Juan', 'email1@example.com', '123-456-7891', 'Mensaje 1', false, NULL),
-('david', 'email2@example.com', '123-456-7892', 'Mensaje 2', false, NULL),
-('Pedro', 'email3@example.com', '123-456-7893', 'Mensaje 3', false, NULL),
-('Raul', 'email4@example.com', '123-456-7894', 'Mensaje 4', false, NULL),
-('David', 'email5@example.com', '123-456-7895', 'Mensaje 5', false, NULL),
-('Jose', 'email6@example.com', '123-456-7896', 'Mensaje 6', false, NULL),
-('Juan', 'email7@example.com', '123-456-7897', 'Mensaje 7', false, NULL),
-('Nombre 8', 'email8@example.com', '123-456-7898', 'Mensaje 8', false, NULL),
-('Pedro', 'email9@example.com', '123-456-7899', 'Mensaje 9', false, NULL),
-('Nombre 10', 'email10@example.com', '123-456-7890', 'Mensaje 10', false, NULL);
+('2024-08-15', 'Juan', 'email1@example.com', '123-456-7891', 'Mensaje 1', false, 1),
+('2024-08-15','david', 'email2@example.com', '123-456-7892', 'Mensaje 2', false, 2),
+('2024-08-14','Pedro', 'email3@example.com', '123-456-7893', 'Mensaje 3', false, 3),
+('2024-08-15','Raul', 'email4@example.com', '123-456-7894', 'Mensaje 4', false, 4),
+('2024-08-15','David', 'email5@example.com', '123-456-7895', 'Mensaje 5', false, 5),
+('2024-08-13','Jose', 'email6@example.com', '123-456-7896', 'Mensaje 6', false, 6),
+('2024-08-15','Juan', 'email7@example.com', '123-456-7897', 'Mensaje 7', false, 7),
+('2024-08-15','Nombre 8', 'email8@example.com', '123-456-7898', 'Mensaje 8', false, 9),
+('2024-08-12','Pedro', 'email9@example.com', '123-456-7899', 'Mensaje 9', false, 8),
+('2024-08-13','Nombre 10', 'email10@example.com', '123-456-7890', 'Mensaje 10', false, 10);
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
