@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.quintoimpacto.ubuntuapi.dto.PublicationDTO;
 import net.quintoimpacto.ubuntuapi.service.IPublicationsService;
+import net.quintoimpacto.ubuntuapi.service.IUserService;
 
 @RestController
 @RequestMapping("/publications")
@@ -28,7 +28,9 @@ public class PublicationsController {
     @Autowired
     private IPublicationsService publicationsService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @Autowired
+    private IUserService userService;
+
     @PostMapping("/createPublication")
     public ResponseEntity<PublicationDTO> createPublication(@RequestBody PublicationDTO publicationDTO) {
         return ResponseEntity.ok(publicationsService.createPublication(publicationDTO));
@@ -43,6 +45,7 @@ public class PublicationsController {
     public ResponseEntity<PublicationDTO> getPublicationById(@PathVariable Long id) {
         return ResponseEntity.ok(publicationsService.getPublicationById(id));
     }
+
 
     @GetMapping("/getAllPublications")
     public ResponseEntity<?> getPublications(
