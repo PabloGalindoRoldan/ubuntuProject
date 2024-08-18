@@ -42,6 +42,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (user != null) {
             String token = Jwts.builder()
                     .setSubject(email)
+                    .claim("id", user.getId())
                     .claim("first_name", user.getFirst_name())
                     .claim("last_name", user.getLast_name())
                     .claim("role", user.getRole())
