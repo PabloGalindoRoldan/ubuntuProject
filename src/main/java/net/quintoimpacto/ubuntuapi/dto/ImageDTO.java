@@ -15,6 +15,6 @@ public class ImageDTO {
     private String url;
     private String publicId;
     private Long microBusinessId;
-    private String fileBase64; // Agregar este campo
+    private String fileBase64; 
 
 }

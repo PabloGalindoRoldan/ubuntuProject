@@ -49,10 +49,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                     .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hora
                     .signWith(SignatureAlgorithm.HS512, secretKey)
                     .compact();
-                    // response.sendRedirect(frontendUrl + "/?token=" + token);
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    response.getWriter().write("{\"token\": \"" + token + "\"}");
+                    response.sendRedirect(frontendUrl + "/?token=" + token);
+                    // response.setContentType("application/json");
+                    // response.setCharacterEncoding("UTF-8");
+                    // response.getWriter().write("{\"token\": \"" + token + "\"}");
         } else {
             response.sendRedirect(frontendUrlUnauthorized);
         }
