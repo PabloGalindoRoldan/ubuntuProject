@@ -3,9 +3,11 @@ package net.quintoimpacto.ubuntuapi.service;
 import net.quintoimpacto.ubuntuapi.dto.ImageDTO;
 import net.quintoimpacto.ubuntuapi.entity.Image;
 import net.quintoimpacto.ubuntuapi.entity.MicroBusiness;
+import net.quintoimpacto.ubuntuapi.entity.Publications;
 import net.quintoimpacto.ubuntuapi.mapper.ImageMapper;
 import net.quintoimpacto.ubuntuapi.repository.ImageRepository;
 import net.quintoimpacto.ubuntuapi.repository.IMicroBusinessRepository;
+import net.quintoimpacto.ubuntuapi.repository.IPublicationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ public class ImageService {
 
     @Autowired
     private IMicroBusinessRepository microBusinessRepository;
+
+    @Autowired
+    private IPublicationsRepository publicationsRepository;
 
     @Autowired
     private ImageMapper imageMapper;
@@ -69,6 +74,19 @@ public class ImageService {
             return imageMapper.toDTO(savedImage);
         } else {
             throw new RuntimeException("MicroBusiness not found with ID: " + microBusinessId);
+        }
+    }
+
+    public ImageDTO saveImageWithPublication(Long publicationId, ImageDTO imageDTO) {
+        Optional<Publications> publicationOptional = publicationsRepository.findById(publicationId);
+        if (publicationOptional.isPresent()) {
+            Publications publication = publicationOptional.get();
+            Image image = imageMapper.toEntity(imageDTO);
+            image.setPublication(publication);
+            Image savedImage = imageRepository.save(image);
+            return imageMapper.toDTO(savedImage);
+        } else {
+            throw new RuntimeException("Publication not found with ID: " + publicationId);
         }
     }
 }

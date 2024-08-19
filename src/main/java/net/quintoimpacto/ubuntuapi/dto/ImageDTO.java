@@ -1,6 +1,5 @@
 package net.quintoimpacto.ubuntuapi.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +14,6 @@ public class ImageDTO {
     private String url;
     private String publicId;
     private Long microBusinessId;
-    private String fileBase64; // Agregar este campo
-
+    private Long publicationId; // Add this field
+    private String fileBase64;
 }
