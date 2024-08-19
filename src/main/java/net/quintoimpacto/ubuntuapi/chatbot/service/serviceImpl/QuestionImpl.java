@@ -3,12 +3,11 @@ package net.quintoimpacto.ubuntuapi.chatbot.service.serviceImpl;
 import net.quintoimpacto.ubuntuapi.chatbot.dto.QuestionDTO;
 import net.quintoimpacto.ubuntuapi.chatbot.entity.Answer;
 import net.quintoimpacto.ubuntuapi.chatbot.entity.Question;
-import net.quintoimpacto.ubuntuapi.chatbot.enums.Hierarchy;
 import net.quintoimpacto.ubuntuapi.exception.ValidateIntegrity;
-import net.quintoimpacto.ubuntuapi.chatbot.mapper.QuestionMapper;
 import net.quintoimpacto.ubuntuapi.chatbot.repository.IAnswerRepository;
 import net.quintoimpacto.ubuntuapi.chatbot.repository.IQuestionRepository;
 import net.quintoimpacto.ubuntuapi.chatbot.service.IQuestionService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,44 +24,112 @@ public class QuestionImpl implements IQuestionService {
     private IAnswerRepository answerRepository;
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private ModelMapper modelMapper;
 
     @Override
-    public QuestionDTO create(QuestionDTO questionDTO) {
-        Question question= questionMapper.questionDTO2Entity(questionDTO);
-        Question createQuestion= questionRepository.save(question);
-        return questionMapper.question2DTO(createQuestion);
+    public QuestionDTO createQuestion(QuestionDTO questionDTO) {
+        Question question = modelMapper.map(questionDTO, Question.class);
+        question.setActive(true);
+
+        // Manejo de subpreguntas
+        if (questionDTO.getSubQuestions() != null) {
+            List<Question> subQuestions = questionDTO.getSubQuestions().stream()
+                    .map(subQuestionDTO -> {
+                        Question subQuestion = modelMapper.map(subQuestionDTO, Question.class);
+                        subQuestion.setParentQuestion(question);
+                        subQuestion.setActive(true);
+                        return subQuestion;
+                    }).collect(Collectors.toList());
+
+            question.setSubQuestions(subQuestions);
+        }
+
+        Question savedQuestion = questionRepository.save(question);
+        return modelMapper.map(savedQuestion, QuestionDTO.class);
     }
 
-    //Obtener preguntas iniciales
     @Override
-    public List<QuestionDTO> getInitialQuestions() {
-        List<Question> questions= questionRepository.findByInitial(true);
-        return questions.stream().map(questionMapper::question2DTO).collect(Collectors.toList());
+    public QuestionDTO updateQuestion(QuestionDTO questionDTO, Long id) {
+        Question existingQuestion = questionRepository.findById(id)
+                .orElseThrow(() -> new ValidateIntegrity("Question not found with id: " + id));
+
+        existingQuestion.setQuestionText(questionDTO.getQuestionText());
+        existingQuestion.setActive(questionDTO.isActive());
+
+        // Manejo de subpreguntas actualizadas
+        if (questionDTO.getSubQuestions() != null) {
+            List<Question> subQuestions = questionDTO.getSubQuestions().stream()
+                    .map(subQuestionDTO -> {
+                        Question subQuestion;
+
+                        // Si la subpregunta ya existe, la actualizamos
+                        if (subQuestionDTO.getId() != null) {
+                            subQuestion = questionRepository.findById(subQuestionDTO.getId())
+                                    .orElseThrow(() -> new ValidateIntegrity("SubQuestion not found with id: " + subQuestionDTO.getId()));
+                            subQuestion.setQuestionText(subQuestionDTO.getQuestionText());
+                            subQuestion.setActive(subQuestionDTO.isActive());
+                        } else {
+                            // Si la subpregunta no existe, la creamos nueva
+                            subQuestion = modelMapper.map(subQuestionDTO, Question.class);
+                            subQuestion.setParentQuestion(existingQuestion);
+                            subQuestion.setActive(subQuestionDTO.isActive());
+                        }
+
+                        return subQuestion;
+                    }).collect(Collectors.toList());
+
+            existingQuestion.setSubQuestions(subQuestions);
+        }
+
+        Question updatedQuestion = questionRepository.save(existingQuestion);
+        return modelMapper.map(updatedQuestion, QuestionDTO.class);
     }
 
-    //Obtener subpreguntas de una repuesta
+    // Nuevo método para crear subpreguntas con sus subrespuestas
+    public QuestionDTO createSubQuestionWithSubAnswers(QuestionDTO subQuestionDTO, Long parentQuestionId) {
+        Question parentQuestion = questionRepository.findById(parentQuestionId)
+                .orElseThrow(() -> new ValidateIntegrity("Parent Question not found with id: " + parentQuestionId));
+
+        Question subQuestion = modelMapper.map(subQuestionDTO, Question.class);
+        subQuestion.setParentQuestion(parentQuestion);
+        subQuestion.setActive(true);
+
+        // Manejo de subrespuestas
+        if (subQuestionDTO.getAnswers() != null) {
+            List<Answer> subAnswers = subQuestionDTO.getAnswers().stream()
+                    .map(answerDTO -> {
+                        Answer answer = modelMapper.map(answerDTO, Answer.class);
+                        answer.setQuestion(subQuestion);
+                        answer.setActive(true);
+                        return answer;
+                    }).collect(Collectors.toList());
+            subQuestion.setAnswers(subAnswers);
+        }
+
+        Question savedSubQuestion = questionRepository.save(subQuestion);
+        return modelMapper.map(savedSubQuestion, QuestionDTO.class);
+    }
+
     @Override
-    public List<QuestionDTO> getSubQuestions(Long answerId) {
-        Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new ValidateIntegrity("Answer not found with id " + answerId));
-        return answer.getSubQuestions().stream()
-                .map(questionMapper::question2DTO)
+    public void deleteQuestion(Long id) {
+        Question existingQuestion = questionRepository.findById(id)
+                .orElseThrow(() -> new ValidateIntegrity("Question not found with id: " + id));
+        existingQuestion.setActive(false); // Borrado lógico
+        questionRepository.save(existingQuestion);
+    }
+
+    @Override
+    public QuestionDTO getQuestionById(Long id) {
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> new ValidateIntegrity("Question not found with id: " + id));
+        return modelMapper.map(question, QuestionDTO.class);
+    }
+
+    @Override
+    public List<QuestionDTO> getAllQuestions() {
+        List<Question> questions = questionRepository.findAllByActive(true);
+        return questions.stream()
+                .map(question -> modelMapper.map(question, QuestionDTO.class))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public QuestionDTO update(QuestionDTO questionDTO, Long id) {
-        //busca la pregunta existente
-        Question question= questionRepository.findById(id).orElseThrow(() -> new ValidateIntegrity("Question not found with id " + id));
-        //Actualiza los campos de la pregunta
-
-        question.setQuestionText(questionDTO.getQuestionText());
-        question.setHierarchy(Hierarchy.fromDescription(questionDTO.getHierarchyDescription()));
-        question.setActive(questionDTO.isActive());
-        question.setInitial(questionDTO.isInitial());
-
-        Question updateQuestion= questionRepository.save(question);//guarda la pregunta actualizada
-        return questionMapper.question2DTO(updateQuestion);//convertir la entidad actualizada a DTO y devuelve
     }
 }
