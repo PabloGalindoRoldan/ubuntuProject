@@ -1,7 +1,6 @@
 package net.quintoimpacto.ubuntuapi.dto;
 
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,5 +40,5 @@ public class PublicationDTO {
     private User user;
 
     
-    private List<ImageDTO> images;
+    private List<ImageWithoutMicroBusinessDTO> images;
 }

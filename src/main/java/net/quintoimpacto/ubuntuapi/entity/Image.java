@@ -37,6 +37,7 @@ public class Image {
                 ", publicId='" + publicId + '\'' +
                 ", url='" + url + '\'' +
                 ", microBusiness=" + microBusiness +
+                ", publication=" + publication +
                 '}';
     }
 
