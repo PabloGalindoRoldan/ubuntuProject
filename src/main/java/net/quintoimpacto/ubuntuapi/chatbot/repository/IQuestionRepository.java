@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface IQuestionRepository extends JpaRepository<Question, Long> {
 
-    List<Question> findByActive(boolean active);
-    List<Question> findByInitial(boolean initial);
+    List<Question>findAllByActive(boolean active);
 }

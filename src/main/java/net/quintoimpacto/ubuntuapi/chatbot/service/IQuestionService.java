@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface IQuestionService {
 
-    QuestionDTO create(QuestionDTO questionDTO);
-    List<QuestionDTO> getInitialQuestions();
-    List<QuestionDTO> getSubQuestions(Long answerId);
-    QuestionDTO update(QuestionDTO questionDTO, Long id);
+    QuestionDTO createQuestion(QuestionDTO questionDTO);
+    QuestionDTO createSubQuestionWithSubAnswers(QuestionDTO subQuestionDTO, Long parentQuestionId);
+    public QuestionDTO updateQuestion(QuestionDTO questionDTO,Long id);
+    public void deleteQuestion(Long id);
+    public QuestionDTO getQuestionById(Long id);
+    public List<QuestionDTO> getAllQuestions();
 }

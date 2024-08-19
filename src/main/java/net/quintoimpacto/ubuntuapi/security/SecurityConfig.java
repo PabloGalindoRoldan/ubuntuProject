@@ -38,17 +38,17 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/", "/login/oauth2/**", "/error").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/countries", "/provinces", "/images", "images/{id}", "/microbusiness/findAll", "/microbusiness/").permitAll()
-                                .requestMatchers(HttpMethod.GET,  "/questions/initial", "/questions/subquestions/{answerId}", "/answer/all").permitAll()
+                                .requestMatchers(HttpMethod.GET,  "/questions/all", "/questions/getQuestions/{questionId}", "/answers/all", "/answers/getAnswers/{questionId}").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/contact/").permitAll()
                                 .requestMatchers("/contact/**").hasRole("ADMIN")
                                 .requestMatchers("/user").hasRole("USER")
                                 .requestMatchers("/admin").hasRole("ADMIN")
                                 .requestMatchers("/microbusiness/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/questions/create", "/answer/create").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/questions/update/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/questions/create", "/questions/create/{parentQuestionId}/subquestion" ,"/answers/create").hasAnyRole()
+                                .requestMatchers(HttpMethod.PUT, "/questions/update/{id}","/answers/update/{id}").hasAnyRole()
+                                .requestMatchers(HttpMethod.DELETE, "/questions/delete/{id}", "/answers/delete/{id}").hasAnyRole()
                                 .anyRequest().authenticated()
                                 //.requestMatchers("/images","/**").hasRole("ADMIN")
-
 
                 )
                 .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
