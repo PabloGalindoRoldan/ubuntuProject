@@ -24,6 +24,7 @@ const LandingPage = () => {
   const fetchData = async () => {
     try {
       const publicacionesData = await new ServiceHttp("/publications/getAllPublications").get();
+      publicacionesData.sort((a, b) => b.id - a.id);
       setData(publicacionesData);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -31,6 +32,7 @@ const LandingPage = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <Box>
@@ -321,14 +323,14 @@ const LandingPage = () => {
             >
               Finanzas con impacto
             </Typography>
-
+            
             {data.slice(0, 3).map((publicacion, index) => (
               <PublicacionesCard
                 key={index}
                 id={publicacion.id}
                 title={publicacion.title}
                 images={publicacion.images.map((item) => item.url)}
-                date={publicacion.createdAt}
+                date={publicacion.createdDate}
                 text={publicacion.description}
               />
             ))}

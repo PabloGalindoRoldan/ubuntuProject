@@ -18,6 +18,7 @@ const ViewPublicaciones = () => {
     const fetchData = async () => {
         try {
             const publicacionesData = await new ServiceHttp("/publications/getAllPublications").get();
+            publicacionesData.sort((a, b) => b.id - a.id);
             setData(publicacionesData);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -82,7 +83,7 @@ const ViewPublicaciones = () => {
                                 id = {publicacion.id}
                                 title={publicacion.title}
                                 images={publicacion.images.map((item) => item.url)}
-                                date={publicacion.createdAt}
+                                date={publicacion.createdDate}
                                 text={publicacion.description}
                             />
                         </Grid>

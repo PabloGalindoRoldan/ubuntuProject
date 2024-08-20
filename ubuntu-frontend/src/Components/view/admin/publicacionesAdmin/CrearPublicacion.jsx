@@ -1,61 +1,57 @@
-import React, { useState, useContext } from 'react';
-import { Box, Typography, TextField, FormHelperText, Button } from '@mui/material';
+import  { useState, useContext } from 'react';
+import { Box, Typography, TextField, FormHelperText, Button, Tooltip } from '@mui/material';
 import { ReusableButton } from '../../../shared';
 import axios from 'axios';
 import UploadIcon from '@mui/icons-material/Upload';
 import theme from '../../../../theme/theme';
-import AuthContext from '../../../../token/auth/AuthProvider'
+import AuthContext from '../../../../token/auth/AuthProvider';
+import UbuntuLoader from '../../../shared/ubuntuLoader/UbuntuLoader'; 
+import { useNavigate } from 'react-router-dom';
+import ModalAlert from '../../../shared/modalAlert/ModalAlert'; 
 
 const CrearPublicacion = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [imageFiles, setImageFiles] = useState([]);
     const [imageBase64, setImageBase64] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false); 
+    const [modalStatus, setModalStatus] = useState('success'); 
+    const [modalTitle, setModalTitle] = useState(''); 
+    const [modalSubTitle, setModalSubTitle] = useState(''); 
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
     const maxCharacters = 2000;
-    const {user} = useContext(AuthContext);
 
-
-    // Convert images to base64 and send to backend
-    const handleImageUpload = async (event) => {
-        const files = event.target.files;
-        if (files.length > 0) {
-            const base64Images = [];
-            const imageNames = [];
-
-            // Use a loop to read all files
-            for (const file of files) {
-                if (file.size > 3 * 1024 * 1024) {
-                    alert('Each image must be less than 3MB.');
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onloadend = async () => {
-                    const base64 = reader.result.split(',')[1];
-                    base64Images.push(base64);
-                    imageNames.push(file.name);
-
-                    console.log('Image name:', file.name); // Debug line
-
-                    // Send base64 image to the backend
-                    try {
-                        const response = await axios.post('http://localhost:8080/api/v1/images/uploadForPublication', {
-                            fileBase64: base64,
-                            publicationId: "" // Replace with appropriate ID or parameter
-                        });
-                        console.log('Image uploaded:', response.data);
-                    } catch (error) {
-                        console.error('Error uploading image:', error);
-                    }
-
-                    // Update state after processing all files
-                    if (base64Images.length === files.length) {
-                        setImageBase64(base64Images);
-                        setImageFiles(imageNames);
-                    }
-                };
+    const handleImageUpload = (event) => {
+        const files = Array.from(event.target.files);
+    
+        if (files.length > 3) {
+            alert('You can only upload up to 3 images.');
+            return;
+        }
+    
+        const base64Images = [];
+        const imageNames = [];
+    
+        for (const file of files) {
+            if (file.size > 3 * 1024 * 1024) {
+                alert('Each image must be less than 3MB.');
+                return;
             }
+    
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const base64 = reader.result.split(',')[1];
+                base64Images.push(base64);
+                imageNames.push(file.name);
+    
+                if (base64Images.length === files.length) {
+                    setImageBase64(base64Images);
+                    setImageFiles(imageNames);
+                }
+            };
         }
     };
 
@@ -63,26 +59,55 @@ const CrearPublicacion = () => {
         e.preventDefault();
 
         if (title && content) {
+            setLoading(true); 
             try {
                 const payload = {
                     user: { id: user.id },
                     title: title,
                     description: content,
-                    images: imageBase64.map(base64 => ({
-                        url: `data:image/png;base64,${base64}`, // Usa el formato adecuado
-                        publicId: '', // Agrega si es necesario
-                        fileBase64: base64
-                    }))
+                    images: [],
                 };
-                
 
                 const url = 'http://localhost:8080/api/v1/publications/createPublication';
-                await axios.post(url, payload);
+                const response = await axios.post(url, payload);
+                const publicationId = response.data.id;
+
+                if (publicationId && imageBase64.length > 0) {
+                    await uploadImages(publicationId);
+                }
+
+                setModalStatus('success');
+                setModalTitle('Publicación creada exitosamente');
+                setModalSubTitle('La publicación ha sido creada y está disponible.');
+                setModalOpen(true);
+
             } catch (error) {
+                setModalStatus('error');
+                setModalTitle('Error al crear la publicación');
+                setModalSubTitle('Ocurrió un error durante la creación de la publicación. Por favor, intente nuevamente.');
+                setModalOpen(true);
                 console.error('Error creating publication:', error);
+            } finally {
+                setLoading(false);
             }
         } else {
             console.log('Please fill in all required fields.');
+        }
+    };
+
+    const uploadImages = async (publicationId) => {
+        try {
+            const uploadPromises = imageBase64.map((base64) =>
+                axios.post('http://localhost:8080/api/v1/images/uploadForPublication', {
+                    fileBase64: base64,
+                    publicationId: publicationId,
+                })
+            );
+
+            const uploadResponses = await Promise.all(uploadPromises);
+            console.log('Images uploaded:', uploadResponses.map(res => res.data));
+        } catch (error) {
+            console.error('Error uploading images:', error);
         }
     };
 
@@ -90,6 +115,17 @@ const CrearPublicacion = () => {
         if (e.target.value.length <= maxCharacters) {
             setContent(e.target.value);
         }
+    };
+
+    const handleModalClose = () => {
+        setModalOpen(false);
+        if (modalStatus === 'success') {
+            navigate('/admin/publicaciones');
+        }
+    };
+
+    const handleTryAgain = () => {
+        setModalOpen(false);
     };
 
     return (
@@ -105,6 +141,7 @@ const CrearPublicacion = () => {
                 paddingRight: "3vw",
             }}
         >
+            {loading && <UbuntuLoader />}
             <Box>
                 <Typography
                     sx={{
@@ -211,9 +248,20 @@ const CrearPublicacion = () => {
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 2 }}>
                             {imageFiles.length > 0 ? (
                                 imageFiles.map((name, index) => (
-                                    <Typography key={index} sx={{ fontSize: '14px', wordBreak: 'break-all', color: "red" }} >
-                                        Archivo: {name}
-                                    </Typography>
+                                    <Tooltip title={name} key={index} arrow>
+                                        <Typography 
+                                            sx={{ 
+                                                fontSize: '14px', 
+                                                maxWidth: "152px", 
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden', 
+                                                textOverflow: 'ellipsis', 
+                                                color: "red" 
+                                            }} 
+                                        >
+                                            Archivo: {name}
+                                        </Typography>
+                                    </Tooltip>
                                 ))
                             ) : (
                                 <Typography sx={{ fontSize: '14px', color: "gray" }}>
@@ -226,6 +274,16 @@ const CrearPublicacion = () => {
 
                 <ReusableButton nombre="Crear publicación" type="submit" />
             </Box>
+
+            <ModalAlert
+                open={modalOpen}
+                handleClose={handleModalClose}
+                onSuccessAction={handleModalClose}
+                status={modalStatus}
+                title={modalTitle}
+                subTitle={modalSubTitle}
+                onTryAgain={handleTryAgain}
+            />
         </Box>
     );
 };
