@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.quintoimpacto.ubuntuapi.dto.PublicationDTO;
+import net.quintoimpacto.ubuntuapi.entity.Image;
 import net.quintoimpacto.ubuntuapi.entity.Publications;
 import net.quintoimpacto.ubuntuapi.mapper.PublicationMapper;
 import net.quintoimpacto.ubuntuapi.repository.IPublicationsRepository;
@@ -26,9 +27,22 @@ public class PublicationsServiceImpl implements IPublicationsService {
     @Override
     public PublicationDTO createPublication(PublicationDTO publicationDTO) {
         Publications publication = publicationMapper.toPublicationEntity(publicationDTO);
+        
+        List<Image> images = publicationDTO.getImages().stream()
+            .map(imageDTO -> {
+                Image image = new Image();
+                image.setUrl(imageDTO.getUrl());
+                image.setPublicId(imageDTO.getPublicId());
+                image.setPublication(publication);
+                return image;
+            }).collect(Collectors.toList());
+        
+        publication.setImages(images); 
+        
         Publications newPublication = publicationsRepository.save(publication);
         return publicationMapper.toPublicationDTO(newPublication);
     }
+
 
     @Override
     public PublicationDTO updatePublication(Long id, PublicationDTO publicationDTO) {

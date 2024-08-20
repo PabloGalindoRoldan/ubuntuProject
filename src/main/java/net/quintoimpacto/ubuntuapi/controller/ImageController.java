@@ -41,16 +41,34 @@ public class ImageController {
     }
 
     @PostMapping
-    public ResponseEntity<ImageDTO> createImage(@RequestParam String fileBase64,
-                                                @RequestParam String url,
-                                                @RequestParam String publicId,
-                                                @RequestParam Long microBusinessId) {
-        ImageDTO imageDTO = new ImageDTO();
-        imageDTO.setFileBase64(fileBase64);
-        imageDTO.setUrl(url);
-        imageDTO.setPublicId(publicId);
-        ImageDTO savedImage = imageService.saveImageWithMicroBusiness(microBusinessId, imageDTO);
+    public ResponseEntity<ImageDTO> createImage(@RequestBody ImageDTO imageDTO) {
+        ImageDTO savedImage;
+        if (imageDTO.getMicroBusinessId() != null) {
+            savedImage = imageService.saveImageWithMicroBusiness(imageDTO.getMicroBusinessId(), imageDTO);
+        } else {
+            savedImage = imageService.saveImageWithPublication(imageDTO.getPublicationId(), imageDTO);
+        }
+
         return ResponseEntity.ok(savedImage);
+    }
+
+    @PostMapping("/uploadForPublication")
+    public ResponseEntity<?> uploadImageForPublication(@RequestBody ImageDTO imageDTO) {
+        try {
+            Map<String, Object> result = cloudinaryService.uploadBase64File(imageDTO.getFileBase64());
+
+            ImageDTO image2DTO = new ImageDTO();
+            image2DTO.setPublicId((String) result.get("public_id"));
+            image2DTO.setUrl((String) result.get("url"));
+
+            ImageDTO savedImage = imageService.saveImageWithPublication(imageDTO.getPublicationId(), image2DTO);
+
+            System.out.println("Imagen Base64 subida y guardada en la base de datos con ID: " + savedImage.getId() + " y asociada a la publicación con ID: " + imageDTO.getPublicationId());
+
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("No se pudo subir el archivo: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
@@ -109,5 +127,4 @@ public class ImageController {
             return ResponseEntity.badRequest().body("No se pudo eliminar la imagen con ID: " + id + ". Error: " + e.getMessage());
         }
     }
-
 }
