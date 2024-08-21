@@ -66,6 +66,7 @@ const PublicacionesAdmin = () => {
 
     const handleCancel = () => {
         setEditingId(null);
+        fetchData();
     };
 
     return (
