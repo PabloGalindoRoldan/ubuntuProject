@@ -6,6 +6,7 @@ import java.util.Set;
 
 import net.quintoimpacto.ubuntuapi.dto.CategoryDTO;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTO;
+import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTOEmail;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessRegisterDTO;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessShowDto;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessUpdateDTO;
@@ -24,5 +25,5 @@ public interface IMicroBusinessService {
     public Optional<MicroBusiness> findByIdAndUserEmail(Long id, String email);
     public void delete(Long id);
     public List<MicroBusinessDTO> findAll();
-    public List<MicroBusinessDTO> getNewMicroBusinessesForTheWeek();
+    public List<MicroBusinessDTOEmail> getNewMicroBusinessesForTheWeek();
 }

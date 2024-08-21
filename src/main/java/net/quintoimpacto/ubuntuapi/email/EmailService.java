@@ -8,6 +8,8 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTO;
+import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTOEmail;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,7 @@ public class EmailService {
     @Value("${sendgrid.api-key}")
     private String apiKey;
 
-    public void sendWeeklyUpdateEmail(String toEmail, String templateId, List<MicroBusinessDTO> newMicroBusinesses) throws IOException {
+    public void sendWeeklyUpdateEmail(String toEmail, String templateId, List<MicroBusinessDTOEmail> newMicroBusinesses) throws IOException {
         Email from = new Email("ubuntuorganizationproyect@gmail.com");
         Email to = new Email(toEmail);
         Mail mail = new Mail();
@@ -34,7 +36,7 @@ public class EmailService {
         personalization.addTo(to);
 
         List<Map<String, String>> businessesData = new ArrayList<>();
-        for (MicroBusinessDTO mb : newMicroBusinesses) {
+        for (MicroBusinessDTOEmail mb : newMicroBusinesses) {
             Map<String, String> dynamicData = new HashMap<>();
             dynamicData.put("micro_business_name", mb.getName());
             dynamicData.put("description", mb.getDescription());
@@ -43,6 +45,7 @@ public class EmailService {
             businessesData.add(dynamicData);
         }
         personalization.addDynamicTemplateData("businesses", businessesData);
+        personalization.addDynamicTemplateData("subject", "Actualizate con los nuevos Microemprendimientos");
         mail.addPersonalization(personalization);
 
         SendGrid sg = new SendGrid(apiKey);

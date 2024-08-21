@@ -1,6 +1,7 @@
 package net.quintoimpacto.ubuntuapi.email;
 
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTO;
+import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTOEmail;
 import net.quintoimpacto.ubuntuapi.entity.User;
 import net.quintoimpacto.ubuntuapi.repository.IUserRepository;
 import net.quintoimpacto.ubuntuapi.service.IMicroBusinessService;
@@ -25,11 +26,11 @@ public class WeeklyEmailScheduler {
 
     @Scheduled(cron = "0 0 10 * * MON") // Cada lunes a las 10:00 AM
     public void sendWeeklyEmails() {
-        List<MicroBusinessDTO> newMicroBusinesses = microBusinessService.getNewMicroBusinessesForTheWeek();
+        List<MicroBusinessDTOEmail> newMicroBusinesses = microBusinessService.getNewMicroBusinessesForTheWeek();
 
         try {
             // Envía el email a cada usuario registrado
-            List<User> users = userRepository.findAll();
+            List<User> users = userRepository.findAllByDeletedFalse();
             for (User user : users) {
                 emailService.sendWeeklyUpdateEmail(user.getEmail(), "d-7c0db16865e84e168c873a9af26e519b", newMicroBusinesses);
             }

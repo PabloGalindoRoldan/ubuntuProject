@@ -116,6 +116,13 @@ public class MicroBusinessController {
         } 
     }
 
+    /* @GetMapping("/microNewWeekly")
+    public ResponseEntity<?> getMicroNew() {
+        //String email = getUserPrincipal();
+        var listMicro = microBusinessService.getNewMicroBusinessesForTheWeek();
+        return  ResponseEntity.status(HttpStatus.OK).body(listMicro);
+    } */
+
     // @GetMapping("/{id}")
     // public ResponseEntity<MicroBusinessDTO> getById(@PathVariable Long id) {
     //     Optional<MicroBusinessDTO> microBusinessDTO = microBusinessService.findById(id);
