@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,7 +33,8 @@ public class ImageController {
 
             ImageDTO savedImage = imageService.saveImageWithMicroBusiness(imageDTO.getMicroBusinessId(), image2DTO);
 
-            System.out.println("Imagen Base64 subida y guardada en la base de datos con ID: " + savedImage.getId() + " y asociada al microemprendimiento con ID: " + imageDTO.getMicroBusinessId());
+            System.out.println("Imagen Base64 subida y guardada en la base de datos con ID: " + savedImage.getId()
+                    + " y asociada al microemprendimiento con ID: " + imageDTO.getMicroBusinessId());
 
             return ResponseEntity.ok(result);
         } catch (Exception e) {
@@ -63,9 +65,15 @@ public class ImageController {
 
             ImageDTO savedImage = imageService.saveImageWithPublication(imageDTO.getPublicationId(), image2DTO);
 
-            System.out.println("Imagen Base64 subida y guardada en la base de datos con ID: " + savedImage.getId() + " y asociada a la publicación con ID: " + imageDTO.getPublicationId());
+            Map<String, Object> response = new HashMap<>();
+            response.put("internalId", savedImage.getId()); 
+            response.put("publicId", savedImage.getPublicId());
+            response.put("url", savedImage.getUrl());
 
-            return ResponseEntity.ok(result);
+            System.out.println("Imagen Base64 subida y guardada en la base de datos con ID: " + savedImage.getId()
+                    + " y asociada a la publicación con ID: " + imageDTO.getPublicationId());
+
+            return ResponseEntity.ok(response); 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("No se pudo subir el archivo: " + e.getMessage());
         }
@@ -124,7 +132,8 @@ public class ImageController {
             return ResponseEntity.ok("Imagen eliminada con ID: " + id);
         } catch (Exception e) {
             // Si ocurre algún error, devolver una respuesta 400 con el mensaje de error
-            return ResponseEntity.badRequest().body("No se pudo eliminar la imagen con ID: " + id + ". Error: " + e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body("No se pudo eliminar la imagen con ID: " + id + ". Error: " + e.getMessage());
         }
     }
 }
