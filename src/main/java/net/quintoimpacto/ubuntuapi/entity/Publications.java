@@ -1,6 +1,6 @@
 package net.quintoimpacto.ubuntuapi.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -54,7 +54,7 @@ public class Publications {
     private boolean deleted = false;
 
   @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -70,6 +70,6 @@ public class Publications {
 
     @PrePersist
     protected void onCreate() {
-        createdDate = LocalDateTime.now();
+        createdDate = LocalDate.now();
     }
 }

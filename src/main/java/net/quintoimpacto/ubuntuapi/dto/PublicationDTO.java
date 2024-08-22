@@ -1,7 +1,7 @@
 package net.quintoimpacto.ubuntuapi.dto;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -33,7 +33,7 @@ public class PublicationDTO {
     @Size (max = 2000, message = "La descripcion no puede ser mayor a 2000 caracteres")
     private String description;
 
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
     private Long viewCount;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
