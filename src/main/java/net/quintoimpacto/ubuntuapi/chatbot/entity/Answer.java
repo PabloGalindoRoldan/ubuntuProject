@@ -26,14 +26,19 @@ public class Answer {
     @NotNull(message = "The answer cannot be null.")
     private String answerText;
 
-    //relacion con las preguntas
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_question_id")
+    @ManyToOne
     @JsonBackReference
-    private Question parentQuestion;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
-    //Una respuesta puede desencadenar nuevas preguntas (OneToMany) (esa repuesta puede desencadenar subpreguntas), y esas preguntas están asociadas con esa respuesta (ManyToOne).
-    @OneToMany(mappedBy = "parentAnswer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parentAnswer", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Question> subQuestions = new ArrayList<>();
+    private List<Answer> subAnswers;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "parent_answer_id")
+    private Answer parentAnswer;
+
+    private boolean active;
 }

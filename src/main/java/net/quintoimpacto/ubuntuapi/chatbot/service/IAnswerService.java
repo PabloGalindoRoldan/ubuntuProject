@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface IAnswerService {
 
-    AnswerDTO create(AnswerDTO answerDTO);
+    AnswerDTO createAnswer(AnswerDTO answerDTO);
+    AnswerDTO updateAnswer(AnswerDTO answerDTO,Long id);
+    void deleteAnswer(Long id);
     List<AnswerDTO> getAllAnswers();
+    AnswerDTO getAnswerById(Long id);
 }
