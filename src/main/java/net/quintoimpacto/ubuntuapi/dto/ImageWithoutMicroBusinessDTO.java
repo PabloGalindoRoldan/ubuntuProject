@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageDTO {
+public class ImageWithoutMicroBusinessDTO {
     private Long id;
     private String url;
     private String publicId;
-    private Long microBusinessId;
-    private Long publicationId; // Add this field
-    private String fileBase64;
+    private Long publicationId;
+    private String fileBase64; 
 }
