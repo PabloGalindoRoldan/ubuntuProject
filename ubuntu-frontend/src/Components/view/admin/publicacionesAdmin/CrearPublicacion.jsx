@@ -78,13 +78,13 @@ const CrearPublicacion = () => {
 
                 setModalStatus('success');
                 setModalTitle('Publicación creada exitosamente');
-                setModalSubTitle('La publicación ha sido creada y está disponible.');
+                setModalSubTitle('');
                 setModalOpen(true);
 
             } catch (error) {
                 setModalStatus('error');
-                setModalTitle('Error al crear la publicación');
-                setModalSubTitle('Ocurrió un error durante la creación de la publicación. Por favor, intente nuevamente.');
+                setModalTitle('Lo sentimos, la publicación no pudo ser creada.');
+                setModalSubTitle('Por favor, volvé a intentarlo');
                 setModalOpen(true);
                 console.error('Error creating publication:', error);
             } finally {

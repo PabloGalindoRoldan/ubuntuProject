@@ -20,7 +20,7 @@ const DrawerComponent = () => {
 
   const alwaysVisibleItems = ["Inicio", "Microemprendimientos", "Publicaciones", "Acceder"];
 
-  const conditionalItems = ["Dashboard Administrador", "Microemprendimientos", "Publicaciones", "Solicitudes de Contacto"];
+  const conditionalItems = ["Dashboard Administrador", "Microemprendimientos", "Publicaciones", "ChatBot", "Solicitudes de Contacto"];
 
   const list = () => (
     <Box

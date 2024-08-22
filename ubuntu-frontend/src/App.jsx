@@ -20,6 +20,11 @@ import EditarMicroemprendimiento from "./components/view/admin/microemprendimien
 import ProtectedRoute from "./token/rutes/ProtectedRoutes";
 import PublicacionesAdmin from "./components/view/admin/publicacionesAdmin/PublicacionesAdmin";
 import CrearPublicacion from "./components/view/admin/publicacionesAdmin/CrearPublicacion";
+import ChatbotForms from "./components/view/formsView/ViewFomrs";
+import CreateQuestionsForm from "./components/chatBot/forms/CreateQuestions";
+import EditQuestionForm from "./components/chatBot/forms/EditQuestionForm";
+import DeleteQuestionForm from "./components/chatBot/forms/DeleteQuestion";
+
 
 function App() {
   return (
@@ -44,6 +49,8 @@ function App() {
                 <Route path="/publicaciones" element={<ViewPublicaciones />} />
                 <Route path="/contacto/:id" element={<UserContact />} />
                 <Route path="/buscar" element={<SearchResults />} />
+                
+                {/* Rutas protegidas */}
                 <Route path="/admin/microemprendimientos" element={
                   <ProtectedRoute roles={['ADMIN']} element={<Microemprendimiento />} />
                 } />
@@ -65,6 +72,21 @@ function App() {
                 <Route path="/admin/crearpublicacion" element={
                   <ProtectedRoute roles={['ADMIN']} element={<CrearPublicacion/>} />
                 } />
+                
+                {/* Rutas para los formularios del ChatBot */}
+                <Route path="/admin/ChatBot" element={
+                  <ProtectedRoute roles={['ADMIN']} element={<ChatbotForms />} />
+                } />
+                <Route path="/admin/ChatBot/create" element={
+                  <ProtectedRoute roles={['ADMIN']} element={<CreateQuestionsForm />} />
+                } />
+                <Route path="/admin/ChatBot/edit" element={
+                  <ProtectedRoute roles={['ADMIN']} element={<EditQuestionForm />} />
+                } />
+                <Route path="/admin/ChatBot/delete" element={
+                  <ProtectedRoute roles={['ADMIN']} element={<DeleteQuestionForm />} />
+                } />
+
                 <Route path="/*" element={<Error />} />
               </Routes>
             </div>

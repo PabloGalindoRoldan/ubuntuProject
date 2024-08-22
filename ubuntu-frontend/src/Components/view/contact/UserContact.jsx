@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import { Box, Typography, Container } from "@mui/material";
+import { Box, Typography, Container, TextField } from "@mui/material";
 import imageContact from "../../../assets/img/imagen contacto.jpg";
 import SearchBar from "../../searchBar/SearchBar";
-import './UserContact.css';
 import ModalAlert from '../../shared/modalAlert/ModalAlert';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const UserContact = () => {
   const theme = useTheme();
@@ -18,12 +18,28 @@ const UserContact = () => {
     message: '',
     microBusiness: { id: id || '' },
   });
-
+  
+  const [microBusinessName, setMicroBusinessName] = useState('');
   const [alertType, setAlertType] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalSubTitle, setModalSubTitle] = useState('');
+
+  useEffect(() => {
+    const fetchMicroBusiness = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/v1/microbusiness/${id}`);
+        setMicroBusinessName(response.data.name); 
+      } catch (error) {
+        console.error("Error fetching microemprendimiento:", error);
+      }
+    };
+    
+    if (id) {
+      fetchMicroBusiness();
+    }
+  }, [id]);
 
   useEffect(() => {
     setFormData(prevData => ({
@@ -34,13 +50,10 @@ const UserContact = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData(prevData => {
-      if (name === "microBusinessId") {
-        return { ...prevData, microBusiness: { id: value } };
-      } else {
-        return { ...prevData, [name]: value };
-      }
-    });
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const isValidEmail = (email) => {
@@ -57,7 +70,7 @@ const UserContact = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (allFieldsFilled) {
       if (isValidEmail(formData.email) && isValidPhone(formData.phoneNumber)) {
         setIsSubmitting(true);
@@ -75,7 +88,7 @@ const UserContact = () => {
             setModalSubTitle('Nos pondremos en contacto contigo pronto.');
             console.log('Respuesta del servidor:', response.status);
             console.log("Formulario enviado:", formData);
-
+  
             setFormData({
               fullName: '',
               email: '',
@@ -83,6 +96,11 @@ const UserContact = () => {
               message: '',
               microBusiness: { id: id || '' },
             });
+  
+            setOpenModal(true);
+            setTimeout(() => {
+              setOpenModal(false); 
+            }, 3000);
           } else {
             throw new Error('Error en la respuesta del servidor');
           }
@@ -90,13 +108,9 @@ const UserContact = () => {
           setAlertType('error');
           setModalTitle('Error al enviar el mensaje');
           setModalSubTitle('Inténtalo de nuevo más tarde.');
+          setOpenModal(true);
         } finally {
           setIsSubmitting(false);
-          setOpenModal(true);
-          setTimeout(() => {
-            setAlertType(null);
-            setOpenModal(false);
-          }, 3000);
         }
       } else {
         setAlertType('error');
@@ -219,8 +233,7 @@ const UserContact = () => {
             textAlign: "center",
             color: theme.palette.primary.azul,
           }}>
-            {/* CAMBIAR PARA QUE DINAMICAMENTE DESPLIEGUE EL NOMBRE DEL MICROEMPRENDIMIENTO CORRECTO */}
-            EcoSenda
+            {microBusinessName || 'Nombre del Microemprendimiento'}
           </Typography>
           <Typography sx={{
             fontFamily: "'Lato' ",
@@ -230,7 +243,7 @@ const UserContact = () => {
             textAlign: "center",
             marginTop: "2vh",
           }}>
-            Vas a contactar a Ubuntu para recibir más <br />
+            Vas a contactar a {microBusinessName || 'Ubuntu'} para recibir más <br />
             información acerca del Microemprendimiento <br />
             seleccionado.
           </Typography>
@@ -242,90 +255,58 @@ const UserContact = () => {
             marginBottom: "2vh",
           }}>
             <form onSubmit={handleSubmit} style={{
-              marginTop: "2vh",
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
+              gap: "1rem",
+              width: "80%",
+              maxWidth: "600px",
+              marginTop: "2vh",
+              marginBottom: "2vh",
             }}>
-              <div className="input-block">
-                <input  
-                    value={formData.fullName}
-                    onChange={handleChange}  
-                    type="text" name="fullName" id="input-text" required />
-                <span className="placeholder">
-                  Apellido y Nombre*
-                </span>
-              </div>
-              <div className="input-block">
-                <input
-                  onChange={handleChange}  
-                  value={formData.email}
-                  type="email" name="email" id="email" required />
-                <span className="placeholder">
-                  Correo Electronico*
-                </span>
-              </div>
-              <div className="input-block">
-                <input
-                  onChange={handleChange}  
-                  value={formData.phoneNumber}
-                  type="text" name="phoneNumber" id="phone" required />
-                <span className="placeholder">
-                  Teléfono*
-                </span>
-                <p style={{
-                    fontFamily: "'Lato' ",
-                    fontSize: "15px",
-                    fontWeight: "400",
-                    lineHeight: "16px",
-                    marginBottom: "20px",
-                  }}>
-                    Con el siguiente formato +54 9 261 002 002
-                  </p>
-              </div>
-              <div className="input-block">
-              <input
-                  value={formData.message}
-                  onChange={handleChange}
-                  maxLength="300"
-                  style={{
-                    textAlign: 'left',
-                  }}
-                  type="text" name="message" id="input-text" required className="input-text" />
-                <span className="placeholder">
-                  Mensaje*
-                </span>
-                <div className="p" style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginTop: '2px',
-                }}>
-                  <p style={{
-                      fontFamily: "'Lato' ",
-                      fontSize: "13px",
-                      fontWeight: "400",
-                      lineHeight: "16px",
-                      marginLeft: '8px',
-                    }}>
-                      Máximo 300 caracteres.
-                    </p>
-                    <p style={{
-                      fontFamily: "'Lato' ",
-                      fontSize: "13px",
-                      fontWeight: "400",
-                      lineHeight: "16px",
-                      margin: '0',
-                      textAlign: 'right'
-                    }}>
-                      {formData.message.length}/300
-                    </p>
-                </div>
-              </div>
-              <button
+              <TextField
+                onChange={handleChange}
+                value={formData.fullName}
+                name="fullName"
+                id="name"
+                label="Nombre Completo*"
+                variant="outlined"
+                required
+              />
+              <TextField
+                onChange={handleChange}
+                value={formData.email}
+                name="email"
+                id="email"
+                label="Correo Electrónico*"
+                variant="outlined"
+                type="email"
+                required
+              />
+              <TextField
+                onChange={handleChange}
+                value={formData.phoneNumber}
+                name="phoneNumber"
+                id="phone"
+                label="Teléfono*"
+                variant="outlined"
+                type="tel"
+                required
+              />
+              <TextField
+                onChange={handleChange}
+                value={formData.message}
+                name="message"
+                id="message"
+                label="Mensaje*"
+                variant="outlined"
+                multiline
+                rows={4}
+                required
+              />
+             <button
                   type="submit"
                   style={{
-                    width: "23rem",
+                    width: "20rem",
                     height: "56px",
                     borderRadius: "100px",
                     backgroundColor: allFieldsFilled ? theme.palette.primary.azul : theme.palette.primary.grisOscuro,
@@ -337,6 +318,11 @@ const UserContact = () => {
                     lineHeight: "25px",
                     marginTop: "2vh",
                     transition: "background-color 0.3s ease",
+                    cursor: allFieldsFilled ? "pointer" : "not-allowed",
+                    '&:hover': allFieldsFilled ? {
+                      backgroundColor: theme.palette.primary.verdeFuentes,
+                           color: 'white',
+                                          } : {},
                   }}
                   disabled={!allFieldsFilled || isSubmitting}
                 >
@@ -346,12 +332,13 @@ const UserContact = () => {
           </Box>
         </Box>
       </Box>
-      {alertType && (
+      {openModal && (
         <ModalAlert
-          open={openModal}
-          alertType={alertType}
+          type={alertType}
           title={modalTitle}
-          subtitle={modalSubTitle}
+          subTitle={modalSubTitle}
+          open={openModal}
+          setOpen={setOpenModal}
         />
       )}
     </Container>

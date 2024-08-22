@@ -72,7 +72,7 @@ const ModalAlert = ({ status = "success", title, subTitle, open, onClose, onSucc
             fontSize: "14px",
             lineHeight: "18px",
             width: "80%",
-            textAlign: "left",
+            textAlign: "center",
             mb: "5px",
           }}
         >

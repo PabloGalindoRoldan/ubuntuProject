@@ -5,12 +5,17 @@ import { useState, useEffect } from "react";
 import EditarPublicacion from "./EditarPublicacion";
 import { ServiceHttp } from "../../../../utils/services/serviceHttp";
 import axios from "axios";
+import ModalAlert from "../../../shared/modalAlert/ModalAlert";
 
 const PublicacionesAdmin = () => {
     const [data, setData] = useState([]);
     const [focusedCardId, setFocusedCardId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const [deleteId, setDeleteId] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalStatus, setModalStatus] = useState("success");
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalSubTitle, setModalSubTitle] = useState("");
 
     useEffect(() => {
         fetchData();
@@ -22,26 +27,45 @@ const PublicacionesAdmin = () => {
 
     const handleDelete = async (id) => {
         setDeleteId(id); 
-        console.log(id)
+        
         try {
             await axios.delete(`http://localhost:8080/api/v1/publications/delete/${id}`);
             setData(prevData => prevData.filter(publicacion => publicacion.id !== id));
-            setDeleteId(null);
+            setModalStatus("success");
+            setModalTitle("Publicación ocultada con éxito.");
+            setModalSubTitle("");
         } catch (error) {
             console.error("Error deleting publication:", error);
+            setModalStatus("error");
+            setModalTitle("Lo sentimos, la publicación no pudo ser ocultada.");
+            setModalSubTitle("Por favor, volvé a intentarlo.");
+        } finally {
+            setDeleteId(null);
+            setModalOpen(true);
         }
     };
 
     const fetchData = async () => {
         try {
             const publicacionesData = await new ServiceHttp("/publications/getAllPublications").get();
-            
             publicacionesData.sort((a, b) => b.id - a.id);
-            
             setData(publicacionesData);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
+    const handleEditSuccess = () => {
+        setEditingId(null);
+        fetchData();
+    };
+
+    const handleCancel = () => {
+        setEditingId(null);
     };
 
     return (
@@ -101,8 +125,22 @@ const PublicacionesAdmin = () => {
                     </Box>
                 </>
             ) : (
-                <EditarPublicacion publicacion={data[editingId]} /> 
+                <EditarPublicacion 
+                    publicacion={data.find(pub => pub.id === editingId)} 
+                    onSuccess={handleEditSuccess} 
+                    onCancel={handleCancel}
+                /> 
             )}
+
+            <ModalAlert
+                status={modalStatus}
+                title={modalTitle}
+                subTitle={modalSubTitle}
+                open={modalOpen}
+                onClose={closeModal}
+                onSuccessAction={closeModal}
+                onTryAgain={closeModal}
+            />
         </Box>
     );
 };
