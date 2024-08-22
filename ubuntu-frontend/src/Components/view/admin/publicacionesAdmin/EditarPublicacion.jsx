@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Typography, TextField, FormHelperText, Button } from '@mui/material';
-import { ReusableButton } from '../../../shared';
+import { Box, Typography, TextField, FormHelperText, Button, CircularProgress } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ModalAlert from '../../../shared/modalAlert/ModalAlert';
+import { ReusableButton } from '../../../shared';
 import theme from '../../../../theme/theme';
 
 const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
@@ -15,13 +15,15 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
     const [modalStatus, setModalStatus] = useState('');
     const [modalTitle, setModalTitle] = useState('');
     const [modalSubTitle, setModalSubTitle] = useState('');
+    const [loadingImageId, setLoadingImageId] = useState(null);
+    const [loadingImage, setLoadingImage] = useState(false);
     const maxCharacters = 2000;
 
     useEffect(() => {
         if (publicacion) {
             setTitle(publicacion.title || '');
             setContent(publicacion.description || '');
-            setImages(publicacion.images.map((item) => item.url) || []);
+            setImages(publicacion.images.map((item) => ({ url: item.url, id: item.id })) || []);
         }
     }, [publicacion]);
 
@@ -41,12 +43,12 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
             } catch (error) {
                 console.error('Error updating publication:', error);
                 setModalStatus('error');
-                setModalTitle('Lo sentimos, los cambios no pudieron ser gaurdados.');
+                setModalTitle('Lo sentimos, los cambios no pudieron ser guardados.');
                 setModalSubTitle('Por favor, volvé a intentarlo');
                 setOpenModal(true);
             }
         } else {
-            console.log('Please fill in all required fields.');
+            alert('Please fill in all required fields.');
         }
     };
 
@@ -70,7 +72,88 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
     };
 
     const handleAddImage = () => {
-        // Functionality to add an image
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                setLoadingImage(true);
+                const reader = new FileReader();
+                reader.onloadend = async () => {
+                    const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+    
+                    try {
+                        const response = await axios.post(`http://localhost:8080/api/v1/images/uploadForPublication`, {
+                            fileBase64: base64String,
+                            publicationId: publicacion.id,
+                        });
+
+    
+                        const { internalId, url } = response.data;
+                        if (internalId) {
+                            setImages((prevImages) => [...prevImages, { url, id: internalId }]);
+                        } else {
+                            console.error('No internalId returned in response');
+                        }
+                    } catch (error) {
+                        console.error('Error uploading image:', error);
+                    } finally {
+                        setLoadingImage(false);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        input.click();
+    };
+
+    const handleEditImage = async (imageId) => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                setLoadingImageId(imageId);
+                const reader = new FileReader();
+                reader.onloadend = async () => {
+                    const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+    
+                    try {
+                        const response = await axios.put(`http://localhost:8080/api/v1/images/updateBase64/${imageId}`, {
+                            fileBase64: base64String,
+                        });
+    
+                        const updatedImage = response.data;
+                        setImages((prevImages) =>
+                            prevImages.map((img) => (img.id === imageId ? { ...img, url: updatedImage.url } : img))
+                        );
+    
+                    } catch (error) {
+                        console.error('Error updating image:', error);
+                    } finally {
+                        setLoadingImageId(null);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        input.click();
+    };
+
+    const handleDeleteImage = async (imageId) => {
+        if (!imageId) {
+            console.error('Image ID is undefined or null');
+            return;
+        }
+    
+        try {
+            await axios.delete(`http://localhost:8080/api/v1/images/${imageId}`);
+            setImages((prevImages) => prevImages.filter((img) => img.id !== imageId));
+        } catch (error) {
+            console.error('Error deleting image:', error);
+        }
     };
 
     const buttonsToRender = Math.max(3 - images.length, 0);
@@ -155,51 +238,109 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
                 <Box sx={{ marginTop: '2vh' }}>
                     {images.length > 0 && images.map((image, index) => (
                         <Box
-                            key={`${image}-${index}`}
+                            key={`${image.url}-${index}`}
                             sx={{
                                 position: 'relative',
                                 marginTop: '2vh',
                                 height: '13vh',
                             }}
                         >
-                            <Button sx={{ position: 'absolute', height: '30px', width: '30px', minWidth: '30px', padding: '3px', top: 10, right: 50, display: 'flex', gap: '0.5rem', backgroundColor: 'rgba(0, 0, 0, 0.5)', borderRadius: '50%' }}>
-                                <CreateIcon sx={{ color: 'white' }} />
-                            </Button>
-                            <Button sx={{ position: 'absolute', height: '30px', width: '30px', minWidth: '30px', padding: '3px', top: 10, right: 10, display: 'flex', gap: '0.5rem', backgroundColor: 'rgba(0, 0, 0, 0.5)', borderRadius: '50%' }}>
-                                <DeleteOutlineIcon sx={{ color: 'white' }} />
-                            </Button>
-                            <img
-                                src={image}
-                                alt={`Publicación Imagen ${index + 1}`}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    borderRadius: '5px'
-                                }}
-                            />
+                            {loadingImageId === image.id ? (
+                                <CircularProgress
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '35%',
+                                        left: '40%',
+                                        transform: 'translate(-50%, -50%)',
+                                        color: theme.palette.primary.azul,
+                                    }}
+                                />
+                            ) : (
+                                <>
+                                    <Button
+                                        onClick={() => handleEditImage(image.id)}
+                                        sx={{
+                                            position: 'absolute',
+                                            height: '30px',
+                                            width: '30px',
+                                            minWidth: '30px',
+                                            padding: '3px',
+                                            top: 10,
+                                            right: 50,
+                                            display: 'flex',
+                                            gap: '0.5rem',
+                                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                            borderRadius: '50%',
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <CreateIcon sx={{ color: 'white' }} />
+                                    </Button>
+                                    <Button
+                                        onClick={() => handleDeleteImage(image.id)}
+                                        sx={{
+                                            position: 'absolute',
+                                            height: '30px',
+                                            width: '30px',
+                                            minWidth: '30px',
+                                            padding: '3px',
+                                            top: 10,
+                                            right: 10,
+                                            display: 'flex',
+                                            gap: '0.5rem',
+                                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                            borderRadius: '50%',
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <DeleteOutlineIcon sx={{ color: 'white' }} />
+                                    </Button>
+                                    <img
+                                        src={image.url}
+                                        alt={`Publicación Imagen ${index + 1}`}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            borderRadius: '5px'
+                                        }}
+                                    />
+                                </>
+                            )}
                         </Box>
                     ))}
 
-                    {[...Array(buttonsToRender)].map((_, index) => (
-                        <Button
-                            key={index}
-                            variant="outlined"
-                            onClick={handleAddImage}
-                            sx={{
-                                width: '100%',
-                                height: '13vh',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: '5px',
-                                borderColor: 'black',
-                                color: 'black',
-                                marginTop: '2vh'
-                            }}
-                        >
-                            Añadir Imagen
-                        </Button>
+                    {buttonsToRender > 0 && [...Array(buttonsToRender)].map((_, index) => (
+                        <Box key={index} sx={{ position: 'relative', marginTop: '2vh', height: '13vh' }}>
+                            {loadingImage ? (
+                                <CircularProgress
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '35%',
+                                        left: '40%',
+                                        transform: 'translate(-35%, -45%)',
+                                        color: theme.palette.primary.azul,
+                                    }}
+                                />
+                            ) : (
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleAddImage}
+                                    sx={{
+                                        width: '100%',
+                                        height: '13vh',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        borderRadius: '5px',
+                                        borderColor: 'black',
+                                        color: 'black',
+                                    }}
+                                >
+                                    Añadir Imagen
+                                </Button>
+                            )}
+                        </Box>
                     ))}
                 </Box>
 
@@ -215,35 +356,28 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
                         maxWidth: "350px",
                         minWidth: "255px",
                         height: "40px",
-                        borderRadius: "100px",
-                        mt: "0px",
-                        mb: "48px",
-                        zIndex: 1,
+                        marginBottom: "5vh",
+                        textTransform: "none",
+                        fontFamily: "Lato",
+                        fontSize: "16px",
+                        lineHeight: "20px",
+                        fontWeight: 400,
+                        letterSpacing: "0.01em",
+                        borderRadius: "30px",
                         "&:hover": {
-                            backgroundColor: "#AA9998",
+                            backgroundColor: theme.palette.error.dark,
                         },
                     }}
                 >
-                    <Typography
-                        variant="p"
-                        sx={{
-                            textTransform: "none",
-                            color: theme.palette.primary.blanco,
-                            fontFamily: "Lato",
-                            fontWeight: "700",
-                            fontSize: "16px",
-                        }}
-                    >
-                        Cancelar
-                    </Typography>
+                    Cancelar
                 </Button>
-            </Box>
 
+            </Box>
             <ModalAlert
+                open={openModal}
                 status={modalStatus}
                 title={modalTitle}
                 subTitle={modalSubTitle}
-                open={openModal}
                 onClose={handleModalClose}
                 onSuccessAction={handleSuccess}
                 onTryAgain={handleTryAgain}
