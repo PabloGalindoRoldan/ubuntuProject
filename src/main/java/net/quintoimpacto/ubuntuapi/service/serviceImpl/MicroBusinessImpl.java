@@ -1,14 +1,16 @@
 package net.quintoimpacto.ubuntuapi.service.serviceImpl;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import net.quintoimpacto.ubuntuapi.dto.CategoryDTO;
 import net.quintoimpacto.ubuntuapi.dto.ImageDTO;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTO;
+import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTOEmail;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessRegisterDTO;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessShowDto;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessUpdateDTO;
@@ -109,5 +111,17 @@ public class MicroBusinessImpl implements IMicroBusinessService {
         return microBusinessRepository.findAllByDeletedFalse().stream()
                 .map(micro -> modelMapper.map(micro, MicroBusinessDTO.class))
                 .toList();
+    }
+
+    //busqueda de nuevos microemprendimientos añadidos durante la semana para email
+    @Override
+    public List<MicroBusinessDTOEmail> getNewMicroBusinessesForTheWeek() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).toLocalDate().atStartOfDay();
+        LocalDateTime endOfWeek = startOfWeek.plusDays(7).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).plusDays(1).toLocalDate().atStartOfDay();
+        List<MicroBusiness> microBusinesses = microBusinessRepository.findAllByCreatedDateBetweenAndDeletedFalse(startOfWeek, endOfWeek);
+        return microBusinesses.stream()
+                .map(micro -> modelMapper.map(micro, MicroBusinessDTOEmail.class))
+                .collect(Collectors.toList());
     }
 }

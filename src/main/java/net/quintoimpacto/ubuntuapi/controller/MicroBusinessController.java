@@ -117,6 +117,13 @@ public class MicroBusinessController {
             return ResponseEntity.notFound().build();
         } 
     }
+
+    /* @GetMapping("/microNewWeekly")
+    public ResponseEntity<?> getMicroNew() {
+        //String email = getUserPrincipal();
+        var listMicro = microBusinessService.getNewMicroBusinessesForTheWeek();
+        return  ResponseEntity.status(HttpStatus.OK).body(listMicro);
+    } */
    
     private String getUserPrincipal(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

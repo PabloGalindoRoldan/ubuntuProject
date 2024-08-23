@@ -1,5 +1,6 @@
 package net.quintoimpacto.ubuntuapi.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -18,4 +19,7 @@ public interface IMicroBusinessRepository extends JpaRepository<MicroBusiness,Lo
     Optional<MicroBusiness> findByIdAndUserEmailAndDeletedFalse(long id, String email);
     List<MicroBusiness> findAllByDeletedFalse();
     Optional<MicroBusiness> findByIdAndDeletedFalse(Long id);
+
+    //Obtener nuevos microoemprendimientos
+    List<MicroBusiness> findAllByCreatedDateBetweenAndDeletedFalse(LocalDateTime startDate, LocalDateTime endDate);
 }
