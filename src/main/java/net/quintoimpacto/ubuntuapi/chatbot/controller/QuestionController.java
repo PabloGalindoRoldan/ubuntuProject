@@ -24,23 +24,22 @@ public class QuestionController {
         if(questionDTO == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(questionService.create(questionDTO));
+            return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createQuestion(questionDTO));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-    @GetMapping("/initial")
-    public ResponseEntity<List<QuestionDTO>> getInitialQuestions(){
-        return ResponseEntity.status(HttpStatus.OK).body(questionService.getInitialQuestions());
-    }
-
-    @GetMapping("/subquestions/{answerId}")
-    public ResponseEntity<List<QuestionDTO>> getSubQuestions(@PathVariable Long answerId) {
+    // Controlador para crear subpreguntas con subrespuestas
+    @PostMapping("/create/{parentQuestionId}/subquestion")
+    public ResponseEntity<QuestionDTO> createSubQuestionWithSubAnswers(@Valid @RequestBody QuestionDTO subQuestionDTO, @PathVariable Long parentQuestionId) {
+        if (subQuestionDTO == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         try {
-            return ResponseEntity.ok(questionService.getSubQuestions(answerId));
-        } catch (ValidateIntegrity e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createSubQuestionWithSubAnswers(subQuestionDTO, parentQuestionId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -50,11 +49,54 @@ public class QuestionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(questionService.update(questionDTO,id));
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(questionService.updateQuestion(questionDTO,id));
         } catch (ValidateIntegrity e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
+        try {
+            questionService.deleteQuestion(id);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        } catch (ValidateIntegrity e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<QuestionDTO>> getAllQuestions(){
+        return ResponseEntity.status(HttpStatus.OK).body(questionService.getAllQuestions());
+    }
+
+    /*
+    @GetMapping("/initial")
+    public ResponseEntity<List<QuestionDTO>> getInitialQuestions(){
+        return ResponseEntity.status(HttpStatus.OK).body(questionService.getInitialQuestions());
+    }*/
+
+    /*
+    @GetMapping("/subquestions/{answerId}")
+    public ResponseEntity<List<QuestionDTO>> getSubQuestions(@PathVariable Long answerId) {
+        try {
+            return ResponseEntity.ok(questionService.getSubQuestions(answerId));
+        } catch (ValidateIntegrity e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }*/
+
+    @GetMapping("/getQuestions/{questionId}")
+    public ResponseEntity<QuestionDTO> getQuestionById(@PathVariable Long questionId) {
+        try {
+            return ResponseEntity.ok(questionService.getQuestionById(questionId));
+        } catch (ValidateIntegrity e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }

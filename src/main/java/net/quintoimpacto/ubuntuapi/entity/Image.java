@@ -26,6 +26,10 @@ public class Image {
     @JoinColumn(name = "micro_business_id")
     private MicroBusiness microBusiness;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "publication_id")
+    private Publications publication;
+
     @Override
     public String toString() {
         return "Image{" +
@@ -33,6 +37,9 @@ public class Image {
                 ", publicId='" + publicId + '\'' +
                 ", url='" + url + '\'' +
                 ", microBusiness=" + microBusiness +
+                ", publication=" + publication +
                 '}';
     }
+
+
 }
