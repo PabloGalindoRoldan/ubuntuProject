@@ -74,22 +74,6 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.OK).body(questionService.getAllQuestions());
     }
 
-    /*
-    @GetMapping("/initial")
-    public ResponseEntity<List<QuestionDTO>> getInitialQuestions(){
-        return ResponseEntity.status(HttpStatus.OK).body(questionService.getInitialQuestions());
-    }*/
-
-    /*
-    @GetMapping("/subquestions/{answerId}")
-    public ResponseEntity<List<QuestionDTO>> getSubQuestions(@PathVariable Long answerId) {
-        try {
-            return ResponseEntity.ok(questionService.getSubQuestions(answerId));
-        } catch (ValidateIntegrity e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }*/
-
     @GetMapping("/getQuestions/{questionId}")
     public ResponseEntity<QuestionDTO> getQuestionById(@PathVariable Long questionId) {
         try {

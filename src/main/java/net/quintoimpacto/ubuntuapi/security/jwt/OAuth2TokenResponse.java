@@ -1,4 +1,4 @@
-package net.quintoimpacto.ubuntuapi.security;
+package net.quintoimpacto.ubuntuapi.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

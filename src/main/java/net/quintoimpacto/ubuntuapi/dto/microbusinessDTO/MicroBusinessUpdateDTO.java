@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.quintoimpacto.ubuntuapi.dto.ImageDTO;
-import net.quintoimpacto.ubuntuapi.entity.Country;
 import net.quintoimpacto.ubuntuapi.entity.Image;
 import net.quintoimpacto.ubuntuapi.entity.Province;
 import net.quintoimpacto.ubuntuapi.entity.User;

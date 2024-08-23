@@ -1,6 +1,6 @@
 package net.quintoimpacto.ubuntuapi.controller;
 
-import net.quintoimpacto.ubuntuapi.security.OAuth2TokenResponse;
+import net.quintoimpacto.ubuntuapi.security.jwt.OAuth2TokenResponse;
 import net.quintoimpacto.ubuntuapi.service.serviceImpl.UserAuthImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

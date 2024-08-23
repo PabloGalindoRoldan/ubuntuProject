@@ -3,18 +3,15 @@ package net.quintoimpacto.ubuntuapi.service.serviceImpl;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import net.quintoimpacto.ubuntuapi.dto.CategoryDTO;
-import net.quintoimpacto.ubuntuapi.dto.ImageDTO;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTO;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTOEmail;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessRegisterDTO;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessShowDto;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessUpdateDTO;
-import net.quintoimpacto.ubuntuapi.entity.Image;
 import net.quintoimpacto.ubuntuapi.entity.MicroBusiness;
 import net.quintoimpacto.ubuntuapi.entity.enums.Category;
 import net.quintoimpacto.ubuntuapi.repository.ImageRepository;

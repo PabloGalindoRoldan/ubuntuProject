@@ -1,5 +1,6 @@
-package net.quintoimpacto.ubuntuapi.security;
+package net.quintoimpacto.ubuntuapi.security.config;
 
+import net.quintoimpacto.ubuntuapi.security.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,15 +19,12 @@ public class SecurityConfig {
 
         private final JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
         private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-        private final CustomOidcUserService customOidcUserService;
 
         @Autowired
         public SecurityConfig(JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter,
-                        CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
-                        CustomOidcUserService customOidcUserService) {
+                        CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
                 this.jwtTokenAuthenticationFilter = jwtTokenAuthenticationFilter;
                 this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
-                this.customOidcUserService = customOidcUserService;
         }
 
     @Bean
@@ -46,7 +44,6 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/questions/update/{id}","/answers/update/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/questions/delete/{id}", "/answers/delete/{id}").hasRole("ADMIN")
                                 .anyRequest().authenticated()
-                                //.requestMatchers("/images","/**").hasRole("ADMIN")
 
                 )
                 .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

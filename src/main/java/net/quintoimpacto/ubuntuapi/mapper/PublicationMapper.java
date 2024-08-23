@@ -23,6 +23,3 @@ public class PublicationMapper {
         return modelMapper.map(publication, PublicationDTO.class);
     }
 }
-
-
-//Para que sirve - facilita la conversion de DTO a entidad y viceversa. Detalles especificios se crea y se configura de acuerdo a lo que necesito.

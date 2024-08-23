@@ -1,8 +1,6 @@
 package net.quintoimpacto.ubuntuapi.service.serviceImpl;
 
 import net.quintoimpacto.ubuntuapi.dto.ProvinceDTO;
-import net.quintoimpacto.ubuntuapi.entity.Province;
-import net.quintoimpacto.ubuntuapi.mapper.ProvinceMapper;
 import net.quintoimpacto.ubuntuapi.repository.IProvinceRepository;
 import net.quintoimpacto.ubuntuapi.service.IProvinceService;
 import org.modelmapper.ModelMapper;

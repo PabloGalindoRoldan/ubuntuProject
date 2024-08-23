@@ -1,6 +1,5 @@
 package net.quintoimpacto.ubuntuapi.dto;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.quintoimpacto.ubuntuapi.entity.User;
 
-
 @Data
 @Getter
 @Setter
@@ -24,6 +22,7 @@ import net.quintoimpacto.ubuntuapi.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PublicationDTO {
+
     private Long id;
 
     @NotNull(message = "Titulo no puede estar vacio")
@@ -39,6 +38,5 @@ public class PublicationDTO {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
-    
     private List<ImageWithoutMicroBusinessDTO> images;
 }

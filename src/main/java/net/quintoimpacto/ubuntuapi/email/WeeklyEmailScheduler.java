@@ -1,6 +1,5 @@
 package net.quintoimpacto.ubuntuapi.email;
 
-import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTO;
 import net.quintoimpacto.ubuntuapi.dto.microbusinessDTO.MicroBusinessDTOEmail;
 import net.quintoimpacto.ubuntuapi.entity.User;
 import net.quintoimpacto.ubuntuapi.repository.IUserRepository;

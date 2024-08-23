@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.hibernate.annotations.DynamicInsert;
 import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -74,6 +73,5 @@ public class MicroBusiness {
     protected void onCreate() {
         createdDate = LocalDateTime.now();
     }
-
 }
 

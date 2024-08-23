@@ -43,7 +43,6 @@ public class PublicationsServiceImpl implements IPublicationsService {
         return publicationMapper.toPublicationDTO(newPublication);
     }
 
-
     @Override
     public PublicationDTO updatePublication(Long id, PublicationDTO publicationDTO) {
         Publications publication = publicationsRepository.findById(id)
@@ -80,8 +79,6 @@ public class PublicationsServiceImpl implements IPublicationsService {
         Page<Publications> publicationsPage = publicationsRepository.findAllByDeletedFalseOrderByViewCountDesc(pageable);
         return publicationsPage.map(publicationMapper::toPublicationDTO);
     }
-    
-    
 
     @Override
     @Transactional
@@ -92,6 +89,4 @@ public class PublicationsServiceImpl implements IPublicationsService {
         publication.setDeleted(true);
         publicationsRepository.save(publication);
     }
-    
-    
 }

@@ -1,6 +1,6 @@
 package net.quintoimpacto.ubuntuapi.service;
 
-import net.quintoimpacto.ubuntuapi.security.OAuth2TokenResponse;
+import net.quintoimpacto.ubuntuapi.security.jwt.OAuth2TokenResponse;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

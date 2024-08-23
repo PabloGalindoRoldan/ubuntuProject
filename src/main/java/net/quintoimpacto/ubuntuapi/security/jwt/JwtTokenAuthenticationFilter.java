@@ -1,6 +1,5 @@
 package net.quintoimpacto.ubuntuapi.security.jwt;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
@@ -65,5 +64,4 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 .parseClaimsJws(token)
                 .getBody();
     }
-    
 }

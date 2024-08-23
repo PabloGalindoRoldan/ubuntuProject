@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.quintoimpacto.ubuntuapi.entity.MicroBusiness;
 
 
 @Getter
@@ -39,5 +38,4 @@ public class ContactRequestShowDTO {
     private Long microBusinessId;
 
     private String microBusinessName;
-
 }
