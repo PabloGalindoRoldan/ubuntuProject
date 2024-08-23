@@ -13,10 +13,8 @@ import net.quintoimpacto.ubuntuapi.entity.enums.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.quintoimpacto.ubuntuapi.entity.MicroBusiness;
-import net.quintoimpacto.ubuntuapi.entity.User;
 import net.quintoimpacto.ubuntuapi.service.IMicroBusinessService;
 import net.quintoimpacto.ubuntuapi.service.IUserService;
 
@@ -42,14 +38,11 @@ public class MicroBusinessController {
     @Autowired
     private IUserService userService;
 
-
     @PostMapping("/")
     public ResponseEntity<MicroBusinessShowDto> save(@RequestBody MicroBusinessRegisterDTO microBusinessDTO) {
         MicroBusinessShowDto microBusiness = microBusinessService.save(microBusinessDTO);
         return new ResponseEntity<>(microBusiness, HttpStatus.CREATED);
     }
-
-
 
     @GetMapping("/{id}")
     public ResponseEntity<MicroBusinessDTO> getById(@PathVariable Long id) {
@@ -94,7 +87,6 @@ public class MicroBusinessController {
     private ResponseEntity<List<CategoryDTO>> searchAllCategory(){
         return ResponseEntity.status(HttpStatus.OK).body(microBusinessService.getAllCategory());
     }
-
     
     @GetMapping("/findAllUser")
     public ResponseEntity<Set<MicroBusinessDTO>> findAllMicroByUser() {
@@ -102,7 +94,6 @@ public class MicroBusinessController {
         var listMicroBusiness = microBusinessService.findByUserEmailMicroBusiness(email);
         return  ResponseEntity.status(HttpStatus.OK).body(listMicroBusiness);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMicros(@PathVariable Long id) {
@@ -129,5 +120,4 @@ public class MicroBusinessController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();
     }
-
 }

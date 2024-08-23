@@ -2,7 +2,6 @@ package net.quintoimpacto.ubuntuapi.chatbot.controller;
 
 import jakarta.validation.Valid;
 import net.quintoimpacto.ubuntuapi.chatbot.dto.AnswerDTO;
-import net.quintoimpacto.ubuntuapi.chatbot.dto.QuestionDTO;
 import net.quintoimpacto.ubuntuapi.chatbot.service.IAnswerService;
 import net.quintoimpacto.ubuntuapi.exception.ValidateIntegrity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +72,4 @@ public class AnswerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
 }

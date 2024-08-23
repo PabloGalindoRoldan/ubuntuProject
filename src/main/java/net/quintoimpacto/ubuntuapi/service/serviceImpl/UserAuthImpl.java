@@ -1,6 +1,6 @@
 package net.quintoimpacto.ubuntuapi.service.serviceImpl;
 
-import net.quintoimpacto.ubuntuapi.security.OAuth2TokenResponse;
+import net.quintoimpacto.ubuntuapi.security.jwt.OAuth2TokenResponse;
 import net.quintoimpacto.ubuntuapi.security.jwt.TokenUtil;
 import net.quintoimpacto.ubuntuapi.service.IUserAuthService;
 import net.quintoimpacto.ubuntuapi.service.IUserService;

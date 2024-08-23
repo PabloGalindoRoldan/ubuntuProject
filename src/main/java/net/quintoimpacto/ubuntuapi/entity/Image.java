@@ -40,6 +40,4 @@ public class Image {
                 ", publication=" + publication +
                 '}';
     }
-
-
 }

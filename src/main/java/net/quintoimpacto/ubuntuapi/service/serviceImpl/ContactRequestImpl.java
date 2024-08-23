@@ -3,7 +3,6 @@ package net.quintoimpacto.ubuntuapi.service.serviceImpl;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -88,7 +87,4 @@ public class ContactRequestImpl implements IContactRequestService {
                 .map(contactRequest -> modelMapper.map(contactRequest, ContactRequestShowDTO.class))
                 .toList();
     }
-
-
-
 }

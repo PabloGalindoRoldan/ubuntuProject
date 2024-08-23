@@ -9,8 +9,6 @@ import net.quintoimpacto.ubuntuapi.entity.MicroBusiness;
 import net.quintoimpacto.ubuntuapi.exception.ValidateIntegrity;
 import net.quintoimpacto.ubuntuapi.repository.IMicroBusinessRepository;
 
-
-
 @Component
 public class ValidateMicrobusiness {
 

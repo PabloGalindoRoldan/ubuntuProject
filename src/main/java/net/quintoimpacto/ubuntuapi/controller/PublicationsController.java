@@ -46,7 +46,6 @@ public class PublicationsController {
         return ResponseEntity.ok(publicationsService.getPublicationById(id));
     }
 
-
     @GetMapping("/getAllPublications")
     public ResponseEntity<?> getPublications(
             @RequestParam(required = false) Integer page,
@@ -61,7 +60,6 @@ public class PublicationsController {
             return ResponseEntity.ok(allPublications);
         }
     }
-    
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletePublication(@PathVariable Long id) {

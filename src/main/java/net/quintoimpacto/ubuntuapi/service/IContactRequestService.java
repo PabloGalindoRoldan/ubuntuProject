@@ -6,7 +6,6 @@ import java.util.Optional;
 import net.quintoimpacto.ubuntuapi.dto.ContactRequestDTO.ContactRequestDTO;
 import net.quintoimpacto.ubuntuapi.dto.ContactRequestDTO.ContactRequestShowDTO;
 
-
 public interface IContactRequestService {
     void save(ContactRequestDTO contact);
     void update(ContactRequestDTO contact, Long id);

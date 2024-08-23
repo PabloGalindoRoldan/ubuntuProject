@@ -40,5 +40,4 @@ public class MicroBusinessDTO {
     private boolean managed;
 
     private boolean deleted;
-
 }
