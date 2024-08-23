@@ -50,7 +50,6 @@ function App() {
                 <Route path="/contacto/:id" element={<UserContact />} />
                 <Route path="/buscar" element={<SearchResults />} />
                 
-                {/* Rutas protegidas */}
                 <Route path="/admin/microemprendimientos" element={
                   <ProtectedRoute roles={['ADMIN']} element={<Microemprendimiento />} />
                 } />
@@ -73,7 +72,6 @@ function App() {
                   <ProtectedRoute roles={['ADMIN']} element={<CrearPublicacion/>} />
                 } />
                 
-                {/* Rutas para los formularios del ChatBot */}
                 <Route path="/admin/ChatBot" element={
                   <ProtectedRoute roles={['ADMIN']} element={<ChatbotForms />} />
                 } />

@@ -5,11 +5,8 @@ import "./ImageCarousel.css"
 function ImageCarousel({ images }) {
     return (
         <Carousel
-        //opciones de customizacion:
         interval={5000}
         autoPlay={true}
-        // indicators={true}
-        // animation="slide"
         navButtonsAlwaysVisible={true}
         navButtonsProps={{
             style: {

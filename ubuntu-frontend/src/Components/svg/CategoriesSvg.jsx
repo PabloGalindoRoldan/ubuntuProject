@@ -6,7 +6,6 @@ const SvgStyle = () => {
     <Box sx={{
          position: "absolute",
          width:"100%",
-        //  height:"10vh",
          height:"10vh",
          top:0
     }}

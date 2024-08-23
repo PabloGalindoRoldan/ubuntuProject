@@ -1,4 +1,3 @@
-
 import { ServiceHttp } from './services/serviceHttp';
 
 const serviceImage = new ServiceHttp("/images/uploadBase64");
@@ -25,14 +24,6 @@ export const ServicePutImage = async (base64Image, id, token) => {
     const body = {
       fileBase64: base64Image      
     };
-
-    // Log para ver qué se está enviando
-    // console.log("Enviando solicitud PUT al backend con los siguientes datos:");
-    // console.log("URL:", `${id}`);
-    // console.log("Cuerpo:", body);
-    // console.log("Token:", token);
-
-    // Realizar la solicitud PUT
     const data = await serviceImageUpdate.put(`${id}`, body, token);
     
     if (data.error) throw data.error;

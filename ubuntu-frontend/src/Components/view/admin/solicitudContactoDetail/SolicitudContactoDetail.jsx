@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Typography, Select, MenuItem, FormControl, OutlinedInput } from '@mui/material';
 import axios from 'axios';
 import theme from '../../../../theme/theme';
@@ -42,7 +42,7 @@ function SolicitudContactoDetail({ microBusinessName, microBusinessId, stateRequ
 
         try {
             const customId = microBusinessId;
-            const url = `http://localhost:8080/api/v1/contact/update/${id}`;
+            const url = `${import.meta.env.VITE_API_BASE_URL}/contact/update/${id}`;
             const payload = {
                 stateRequest: newStatus,
                 fullName,

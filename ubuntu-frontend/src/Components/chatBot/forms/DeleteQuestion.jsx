@@ -15,7 +15,7 @@ const DeleteQuestionForm = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/v1/questions/all');
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/questions/all`);
                 setQuestions(response.data);
             } catch (error) {
                 console.error("Error fetching questions:", error);
@@ -33,7 +33,7 @@ const DeleteQuestionForm = () => {
             return;
         }
         try {
-            await axios.delete(`http://localhost:8080/api/v1/questions/delete/${selectedQuestionId}`);
+            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/questions/delete/${selectedQuestionId}`);
             setModalTitle("Éxito");
             setModalSubTitle("Pregunta eliminada con éxito!");
             setModalStatus("success");

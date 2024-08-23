@@ -7,19 +7,22 @@ import axios from "axios";
 import AuthContext from "../../token/auth/AuthProvider";
 
 const PublicacionesCard = ({ title, images, date, text, id }) => {
+
+
     const [expanded, setExpanded] = useState(false);
     const {user} = useContext(AuthContext);
 
     const handleExpandClick = async () => {
         if (!expanded) { 
             if (!user) {
-            try {
-                await axios.get(`http://localhost:8080/api/v1/publications/getAllPublications/${id}`);
-            } catch (error) {
-                console.error('Error updating viewCount:', error);
+                try {
+                const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/publications/getAllPublications/${id}`;
+                    await axios.get(apiUrl);
+                } catch (error) {
+                    console.error('Error updating viewCount:', error);
+                }
             }
         }
-    }
         setExpanded(!expanded);
     };
 

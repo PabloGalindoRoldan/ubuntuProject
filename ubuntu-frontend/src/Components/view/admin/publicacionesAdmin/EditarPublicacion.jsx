@@ -32,7 +32,7 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
 
         if (title && content) {
             try {
-                const response = await axios.put(`http://localhost:8080/api/v1/publications/updatepubs/${publicacion.id}`, {
+                const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/publications/updatepubs/${publicacion.id}`, {
                     title,
                     description: content,
                 });
@@ -84,7 +84,7 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
                     const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
     
                     try {
-                        const response = await axios.post(`http://localhost:8080/api/v1/images/uploadForPublication`, {
+                        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/images/uploadForPublication`, {
                             fileBase64: base64String,
                             publicationId: publicacion.id,
                         });
@@ -121,7 +121,7 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
                     const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
     
                     try {
-                        const response = await axios.put(`http://localhost:8080/api/v1/images/updateBase64/${imageId}`, {
+                        const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/images/updateBase64/${imageId}`, {
                             fileBase64: base64String,
                         });
     
@@ -149,7 +149,7 @@ const EditarPublicacion = ({ publicacion, onSuccess, onCancel }) => {
         }
     
         try {
-            await axios.delete(`http://localhost:8080/api/v1/images/${imageId}`);
+            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/images/${imageId}`);
             setImages((prevImages) => prevImages.filter((img) => img.id !== imageId));
         } catch (error) {
             console.error('Error deleting image:', error);

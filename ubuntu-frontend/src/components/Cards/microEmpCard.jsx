@@ -44,10 +44,7 @@ const CustomCard = ({
     setExpanded(!expanded);
   };
 
-  const handleContactClick = () => {
-    console.log("ID:", id);
-    console.log("Title:", title);
-    
+  const handleContactClick = () => {    
     if (id) {
       navigate(`/contacto/${id}`); 
     } else {
@@ -65,7 +62,6 @@ const CustomCard = ({
         margin:"2vw"
       }}
     >
-{/* hello */}
       <CardContent>
       <ImageCarousel images={images} />
         <Typography

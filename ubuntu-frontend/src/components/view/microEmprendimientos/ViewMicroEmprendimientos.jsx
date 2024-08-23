@@ -21,7 +21,7 @@ const ViewMicroEmprendimientos = () => {
   const category = location.state?.category;
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/microbusiness/findAll')
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/microbusiness/findAll`)
       .then(response => {
         setData(response.data);
         setLoading(false);
@@ -36,7 +36,6 @@ const ViewMicroEmprendimientos = () => {
     if (category) {
       const normalizedCategory = normalizeString(category);
       setSelectedCategory(normalizedCategory);
-      console.log(`Selected Category: ${normalizedCategory}`);
     }
   }, [category]);
 
@@ -55,9 +54,6 @@ const ViewMicroEmprendimientos = () => {
         return normalizedCategoryDescription === selectedCategory;
       })
     : data;
-
-  console.log('Filtered Data:', filteredData);
-  console.log('Selected Category:', selectedCategory);
 
   if (loading) {
     return (
