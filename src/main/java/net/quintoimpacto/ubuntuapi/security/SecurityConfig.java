@@ -36,16 +36,17 @@ public class SecurityConfig {
         http    .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/", "/login/oauth2/**", "/error").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/countries", "/provinces", "/images", "images/{id}", "/microbusiness/findAll", "/microbusiness/", "/microbusiness/microNewWeekly").permitAll()
-                                .requestMatchers(HttpMethod.GET,  "/questions/initial", "/questions/subquestions/{answerId}", "/answer/all").permitAll()
+                               .requestMatchers("/", "/login/oauth2/**", "/error").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/countries", "/provinces", "/images", "images/{id}", "/microbusiness/findAll", "/microbusiness/", "microbusiness/{id}", "/microbusiness/microNewWeekly").permitAll()
+                                .requestMatchers(HttpMethod.GET,  "/questions/all", "/questions/getQuestions/{questionId}", "/answers/all", "/answers/getAnswers/{questionId}", "/publications/getAllPublications", "/publications/getAllPublications/{id}").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/contact/", "/test/sendWeeklyEmails").permitAll()
                                 .requestMatchers("/contact/**").hasRole("ADMIN")
                                 .requestMatchers("/user").hasRole("USER")
                                 .requestMatchers("/admin").hasRole("ADMIN")
                                 .requestMatchers("/microbusiness/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/questions/create", "/answer/create").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/questions/update/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/questions/create", "/questions/create/{parentQuestionId}/subquestion" ,"/answers/create").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/questions/update/{id}","/answers/update/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/questions/delete/{id}", "/answers/delete/{id}").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                                 //.requestMatchers("/images","/**").hasRole("ADMIN")
 
