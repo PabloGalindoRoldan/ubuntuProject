@@ -1,5 +1,3 @@
-//EditarMicroemprendimiento
-
 import { Box, Typography, TextField, MenuItem, FormControl, InputLabel, Select, FormHelperText } from "@mui/material";
 import { useState, useEffect } from "react";
 import { ReusableButton, ImageEdit, UbuntuLoader } from "../../../shared";
@@ -7,7 +5,6 @@ import { putMicrobusiness } from "../../../../utils/services/dashboard/ServiceMi
 import { ServiceHttp } from "../../../../utils/services/serviceHttp";
 import { getCategories } from "../../../../utils/services/dashboard/ServiceCategories";
 import { ModalAlert } from "../../../shared";
-// import { useNavigate } from "react-router-dom";
 import { getCountries } from "../../../../utils/services/dashboard/ServiceCountry";
 import { getProvincias } from "../../../../utils/services/dashboard/ServiceProvince";
 import { ServicePutImage, ServiceDeleteImage } from "../../../../utils/ServiceImage";
@@ -34,7 +31,6 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // const navigate = useNavigate();
 
   const getMicroEmprendimiento = async (microBusinessId) => {
     try {
@@ -52,9 +48,8 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
       setDescription(data.description);
       setMoreInformation(data.moreInformation);
       setSubTitle(data.subTitle);
-      setImages(data.images.map((img) => ({ id: img.id, url: `${img.url}?t=${new Date().getTime()}` }))); // Agrega un parámetro único a la URL de la imagen
+      setImages(data.images.map((img) => ({ id: img.id, url: `${img.url}?t=${new Date().getTime()}` }))); 
 
-      // console.log("Imágenes después de obtener el microemprendimiento:", data.images);
 
       if (matchedCountry) {
         await fetchProvincias(matchedCountry.id);
@@ -67,7 +62,6 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
   const fetchCategories = async () => {
     try {
       const data = await getCategories();
-      // console.log("Categorías obtenidas:", data);
       setCategories(data);
     } catch (error) {
       console.error("Error al obtener categorías:", error);
@@ -77,7 +71,6 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
   const fetchCountries = async () => {
     try {
       const data = await getCountries();
-      // console.log("Países obtenidos:", data);
       setCountriess(data);
     } catch (error) {
       console.error("Error al obtener países:", error);
@@ -88,7 +81,6 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
     try {
       const data = await getProvincias(countryId);
       setProvincess(data);
-      // console.log("Provincias obtenidas:", data); // Verifica que las provincias se obtienen correctamente
     } catch (error) {
       console.error(error);
     }
@@ -118,7 +110,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
     const selectedCountryId = event.target.value;
     setCountry(selectedCountryId);
     await fetchProvincias(selectedCountryId);
-    setProvince(""); // Resetear la provincia seleccionada
+    setProvince(""); 
   };
 
   const handleProvinciaChange = (event) => {
@@ -138,17 +130,12 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
 
     try {
       const response = await ServicePutImage(base64Image, id, token);
-      // console.log(`Respuesta del servidor al actualizar la imagen con ID: ${id}:`, response);
 
       if (response.url) {
-        // console.log(`Imagen con ID: ${id} actualizada exitosamente. Nueva URL: ${response.url}`);
-
-        // Actualiza el estado de las imágenes para forzar la recarga
         setImages((prevImages) => {
           const updatedImages = prevImages.map((img) =>
             img.id === id ? { ...img, url: `${response.url}?t=${new Date().getTime()}` } : img
           );
-          // console.log("Imágenes después de actualizar:", updatedImages);
           return updatedImages;
         });
       } else {
@@ -156,7 +143,6 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
       }
     } catch (error) {
       console.error("Error al actualizar la imagen:", error);
-      // Agrega notificación de error si lo deseas
     }
   };
 
@@ -164,17 +150,10 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
     const token = sessionStorage.getItem("token");
 
     try {
-      // console.log(`Intentando eliminar la imagen con ID: ${id}`);
-      // console.log(`Token de autenticación: ${token}`);
-
       await ServiceDeleteImage(id, token);
-
-      // console.log(`Imagen con ID: ${id} eliminada exitosamente.`);
-
       setImages(images.filter((img) => img.id !== id)); // Actualiza el estado para eliminar la imagen de la UI
     } catch (error) {
       console.error("Error al eliminar la imagen:", error);
-      // Puedes agregar un mensaje de error o una notificación aquí si lo deseas
     }
   };
 
@@ -200,11 +179,10 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
       setModalStatus("success");
       setModalOpen(true);
 
-      // Retrasa la navegación para mostrar el modal
       setTimeout(async () => {
-        await getMicroEmprendimiento(microBusinessId); // Llamada para obtener los datos actualizados
+        await getMicroEmprendimiento(microBusinessId); 
         onEditSuccess();
-      }, 2000); // 2000 ms = 2 segundos
+      }, 2000); 
     } catch (error) {
       console.error("Error al actualizar el microemprendimiento:", error);
       setLoading(false);
@@ -354,18 +332,6 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
             <FormHelperText>Seleccioná una Provincia/Estado de la lista</FormHelperText>
           </FormControl>
         </Box>
-
-        {/* <Box sx={{ mt: "20px", width: "90%" }}>
-          <TextField
-            fullWidth
-            label="Ciudad"
-            variant="outlined"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            helperText="Sin abreviaturas, nombre completo"
-          />
-        </Box> */}
-
         <Box sx={{ mt: "20px", width: "90%" }}>
           <TextField
             fullWidth

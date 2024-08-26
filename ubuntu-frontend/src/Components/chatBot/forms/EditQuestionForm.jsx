@@ -14,7 +14,7 @@ const EditQuestionForm = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/v1/questions/all');
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/questions/all`);
                 setQuestions(response.data);
             } catch (error) {
                 console.error("Error fetching questions:", error);
@@ -36,9 +36,9 @@ const EditQuestionForm = () => {
     const handleSave = async (questionId, answerId, questionIndex, answerIndex) => {
         try {
             if (answerId) {
-                await axios.put(`http://localhost:8080/api/v1/answers/update/${answerId}`, questions[questionIndex].answers[answerIndex]);
+                await axios.put(`${import.meta.env.VITE_API_BASE_URL}/answers/update/${answerId}`, questions[questionIndex].answers[answerIndex]);
             } else {
-                await axios.put(`http://localhost:8080/api/v1/questions/update/${questionId}`, questions[questionIndex]);
+                await axios.put(`${import.meta.env.VITE_API_BASE_URL}/questions/update/${questionId}`, questions[questionIndex]);
             }
             setModalTitle("Éxito");
             setModalSubTitle("Actualización exitosa!");

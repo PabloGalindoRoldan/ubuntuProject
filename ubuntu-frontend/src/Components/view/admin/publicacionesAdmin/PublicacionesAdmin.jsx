@@ -11,7 +11,7 @@ const PublicacionesAdmin = () => {
     const [data, setData] = useState([]);
     const [focusedCardId, setFocusedCardId] = useState(null);
     const [editingId, setEditingId] = useState(null);
-    const [deleteId, setDeleteId] = useState(null);
+    const [ setDeleteId] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalStatus, setModalStatus] = useState("success");
     const [modalTitle, setModalTitle] = useState("");
@@ -29,7 +29,7 @@ const PublicacionesAdmin = () => {
         setDeleteId(id); 
         
         try {
-            await axios.delete(`http://localhost:8080/api/v1/publications/delete/${id}`);
+            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/publications/delete/${id}`);
             setData(prevData => prevData.filter(publicacion => publicacion.id !== id));
             setModalStatus("success");
             setModalTitle("Publicación ocultada con éxito.");

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
   const [selectedImageId, setSelectedImageId] = useState(null);
-  const [newImageFile, setNewImageFile] = useState(null);
+  const [setNewImageFile] = useState(null);
 
   const handleFileChange = async (event) => {
     if (selectedImageId && event.target.files[0]) {
@@ -15,8 +15,8 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
       reader.onloadend = async () => {
         const base64Image = reader.result.split(',')[1];
         await onEditImage(selectedImageId, base64Image);
-        setSelectedImageId(null); // Resetear después de la actualización
-        setNewImageFile(null); // Resetear el archivo seleccionado
+        setSelectedImageId(null); 
+        setNewImageFile(null); 
       };
       
       reader.readAsDataURL(file);
@@ -25,7 +25,7 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
 
   const handleEditClick = (id) => {
     setSelectedImageId(id);
-    document.getElementById('image-input').click(); // Simular clic en el input de archivo
+    document.getElementById('image-input').click(); 
   };
 
   return (
@@ -43,10 +43,10 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
               position: 'absolute', 
               top: 8, 
               left: 8, 
-              bgcolor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente
-              color: 'white' // Color del icono
+              bgcolor: 'rgba(0, 0, 0, 0.5)', 
+              color: 'white'
             }}
-            onClick={() => handleEditClick(image.id)} // Pasar el id de la imagen
+            onClick={() => handleEditClick(image.id)} 
           >
             <EditIcon />
           </IconButton>
@@ -56,10 +56,10 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
               position: 'absolute', 
               top: 8, 
               right: 8, 
-              bgcolor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente
-              color: 'white' // Color del icono
+              bgcolor: 'rgba(0, 0, 0, 0.5)', 
+              color: 'white' 
             }}
-            onClick={() => onDeleteImage(image.id)} // Pasar el id de la imagen
+            onClick={() => onDeleteImage(image.id)}
           >
             <DeleteIcon />
           </IconButton>

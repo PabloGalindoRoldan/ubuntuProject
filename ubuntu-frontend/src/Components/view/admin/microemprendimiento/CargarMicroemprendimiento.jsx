@@ -27,7 +27,6 @@ const CargarMicroemprendimiento = () => {
   const [name, setName] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [province, setProvince] = useState("");
-  // const [ciudad, setCiudad] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [moreInformation, setMoreInformation] = useState("");
   const [provincias, setProvincias] = useState([]);
@@ -106,7 +105,6 @@ const CargarMicroemprendimiento = () => {
   };
 
   const handleSubmit = async () => {
-    // console.log("Formulario enviado");
 
     const formData = {
       name,
@@ -125,22 +123,15 @@ const CargarMicroemprendimiento = () => {
 
     const token = sessionStorage.getItem('token');
 
-    // console.log("Datos a enviar:", JSON.stringify(formData, null, 2));
-    // console.log("Token:", token);
-
     try {
       setLoading(true); 
       const response = await postMicroBusiness(formData, token);
-      // console.log("Respuesta del servidor:", response);
       const microBusinessId = response.id;
-      // console.log("ID del microemprendimiento creado:", microBusinessId);
 
       for (let image of base64Images) {
-        // console.log("Objeto que envío al servidor:", { fileBase64: image.base64, microBusinessId });
         await ServiceUploadImage(image.base64, microBusinessId, token);
       }
 
-      // console.log("Imágenes subidas con éxito");
 
       setModalTitle("Microemprendimiento cargado con éxito");
       setModalStatus("success");
@@ -327,18 +318,6 @@ const CargarMicroemprendimiento = () => {
             <FormHelperText>Seleccioná una Provincia/Estado de la lista</FormHelperText>
           </FormControl>
         </Box>
-
-        {/* <Box sx={{ mt: "20px", width: "90%" }}>
-          <TextField
-            fullWidth
-            label="Ciudad"
-            variant="outlined"
-            value={ciudad}
-            onChange={(e) => setCiudad(e.target.value)}
-            helperText="Sin abreviaturas, nombre completo"
-          />
-        </Box> */}
-
         <Box sx={{ mt: "20px", width: "90%" }}>
           <TextField
             fullWidth

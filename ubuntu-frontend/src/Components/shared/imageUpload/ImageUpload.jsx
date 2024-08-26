@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
-import UploadIcon from '@mui/icons-material/Upload'; // Asegúrate de tener instalado @mui/icons-material
+import UploadIcon from '@mui/icons-material/Upload'; 
 import { useTheme } from "@mui/material/styles";
-import { ServiceUploadImage } from '../../../utils/ServiceImage'; // Asegúrate de ajustar la ruta
+import { ServiceUploadImage } from '../../../utils/ServiceImage'; 
 
 const ImageUpload = ({ microBusinessId }) => {
   const [imageNames, setImageNames] = useState([]);
@@ -34,7 +34,7 @@ const ImageUpload = ({ microBusinessId }) => {
     fileArray.forEach(file => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64Image = reader.result; // Data URI completo
+        const base64Image = reader.result; 
         base64Array.push({ file, base64: base64Image });
         if (base64Array.length === fileArray.length) {
           setBase64Images(base64Array);
@@ -51,8 +51,8 @@ const ImageUpload = ({ microBusinessId }) => {
       return;
     }
 
-    const token = sessionStorage.getItem('token'); // Obtener el token desde sessionStorage
-    console.log('Token recuperado:', token); // Mensaje de depuración
+    const token = sessionStorage.getItem('token'); 
+    console.log('Token recuperado:', token); 
 
     if (!token) {
       setError("No se encontró el token de autenticación.");
@@ -62,7 +62,7 @@ const ImageUpload = ({ microBusinessId }) => {
     try {
       for (let image of base64Images) {
         console.log("Objeto que envío al servidor:", { fileBase64: image.base64, microBusinessId });
-        const response = await ServiceUploadImage(image.base64, microBusinessId, token); // Usar el ID del microemprendimiento
+        const response = await ServiceUploadImage(image.base64, microBusinessId, token);
         console.log('Respuesta del servidor:', response);
       }
     } catch (error) {

@@ -34,18 +34,13 @@ export class ServiceHttp {
 
   async put(id, body, token = null) {
     try {
-      // Generar URL incluyendo el ID si se proporciona
       const url = id ? `${this._route}${this._subRoute}/${id}` : `${this._route}${this._subRoute}`;
-      
-      // Configurar los encabezados, incluyendo Content-Type si se proporciona
-      const config = {
+            const config = {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       };
-      
-      // Realizar la solicitud PUT
       const response = await axios.put(url, body, config);
       return response.data;
     } catch (error) {
@@ -55,7 +50,6 @@ export class ServiceHttp {
 
   async delete(id, token = null) {
     try {
-      // Eliminar barras adicionales al concatenar
       const url = `${this._route.replace(/\/+$/, '')}/${this._subRoute.replace(/^\/+/, '')}/${id}`;
   
       const response = await axios.delete(url, {
@@ -69,8 +63,6 @@ export class ServiceHttp {
 
   async post(body, token = null) {
     try {
-      // console.log("Enviando el siguiente cuerpo:", body);
-      // console.log("Token:", token);
       const response = await axios.post(`${this._route}${this._subRoute}`, body, {
         headers: { Authorization: `Bearer ${token}` }
       });

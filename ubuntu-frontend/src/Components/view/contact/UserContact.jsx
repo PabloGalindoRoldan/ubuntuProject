@@ -29,7 +29,7 @@ const UserContact = () => {
   useEffect(() => {
     const fetchMicroBusiness = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/microbusiness/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/microbusiness/${id}`);
         setMicroBusinessName(response.data.name); 
       } catch (error) {
         console.error("Error fetching microemprendimiento:", error);
@@ -75,7 +75,7 @@ const UserContact = () => {
       if (isValidEmail(formData.email) && isValidPhone(formData.phoneNumber)) {
         setIsSubmitting(true);
         try {
-          const response = await fetch('http://localhost:8080/api/v1/contact/', {
+          const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/contact/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -85,10 +85,7 @@ const UserContact = () => {
           if (response.ok) {
             setAlertType('success');
             setModalTitle('¡Mensaje enviado con éxito!');
-            setModalSubTitle('Nos pondremos en contacto contigo pronto.');
-            console.log('Respuesta del servidor:', response.status);
-            console.log("Formulario enviado:", formData);
-  
+            setModalSubTitle('Nos pondremos en contacto contigo pronto.');  
             setFormData({
               fullName: '',
               email: '',

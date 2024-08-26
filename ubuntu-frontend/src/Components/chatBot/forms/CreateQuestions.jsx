@@ -17,7 +17,7 @@ const CreateQuestionsForm = () => {
 
     const handleCreateQuestion = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/questions/create', {
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/questions/create`, {
                 questionText: question, 
                 hierarchyDescription: "GENERAL",
                 active: true,
@@ -32,7 +32,7 @@ const CreateQuestionsForm = () => {
 
     const handleCreateAnswer = async (questionId) => {
         try {
-            await axios.post('http://localhost:8080/api/v1/answers/create', {
+            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/answers/create`, {
                 answerText: answer,
                 questionId: questionId 
             });

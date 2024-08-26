@@ -17,7 +17,7 @@ const SubQuestions = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/v1/questions/all');
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/questions/all`);
                 setQuestions(response.data);
             } catch (error) {
                 console.error('Error al obtener las preguntas principales:', error);
@@ -43,7 +43,7 @@ const SubQuestions = () => {
 
         try {
             const response = await axios.post(
-                `http://localhost:8080/api/v1/questions/create/${selectedQuestionId}/subquestion`,
+                `${import.meta.env.VITE_API_BASE_URL}/questions/create/${selectedQuestionId}/subquestion`,
                 subQuestionDTO
             );
 

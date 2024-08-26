@@ -68,7 +68,7 @@ const CrearPublicacion = () => {
                     images: [],
                 };
 
-                const url = 'http://localhost:8080/api/v1/publications/createPublication';
+                const url = `${import.meta.env.VITE_API_BASE_URL}/publications/createPublication`;
                 const response = await axios.post(url, payload);
                 const publicationId = response.data.id;
 
@@ -98,7 +98,7 @@ const CrearPublicacion = () => {
     const uploadImages = async (publicationId) => {
         try {
             const uploadPromises = imageBase64.map((base64) =>
-                axios.post('http://localhost:8080/api/v1/images/uploadForPublication', {
+                axios.post(`${import.meta.env.VITE_API_BASE_URL}/images/uploadForPublication`, {
                     fileBase64: base64,
                     publicationId: publicationId,
                 })
