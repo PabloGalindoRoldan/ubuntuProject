@@ -151,7 +151,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
 
     try {
       await ServiceDeleteImage(id, token);
-      setImages(images.filter((img) => img.id !== id)); 
+      setImages(images.filter((img) => img.id !== id));
     } catch (error) {
       console.error("Error al eliminar la imagen:", error);
     }
@@ -340,10 +340,10 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
             value={description}
             onChange={handleDescripcionChange}
             helperText={
-              <Typography variant="body2" sx={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Máximo 300 caracteres</span>
                 <span>{`${description.length}/300`}</span>
-              </Typography>
+              </span>
             }
             inputProps={{ maxLength: 300 }}
             multiline
@@ -359,10 +359,10 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
             value={moreInformation}
             onChange={handleMasInformacionChange}
             helperText={
-              <Typography variant="body2" sx={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Máximo 300 caracteres</span>
                 <span>{`${moreInformation.length}/300`}</span>
-              </Typography>
+              </span>
             }
             inputProps={{ maxLength: 300 }}
             multiline
