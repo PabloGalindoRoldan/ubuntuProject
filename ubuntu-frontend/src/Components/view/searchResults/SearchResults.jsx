@@ -42,11 +42,7 @@ const SearchResults = () => {
                         {searchResults.map((result, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>
                                 <CustomCard
-                                    images={[
-                                        "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/jkwmzyleauq1q7udo7ry.jpg",
-                                        "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/rwdiwne8x5u4abh4s7ol.jpg",
-                                        "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/l1oddcketqyp98imd28p.jpg"
-                                        ]}
+                                    images={result.images.map((item) => item.url)}
                                     title={result.name}
                                     subtitle={result.subTitle}
                                     category={result.categoryDescription}
