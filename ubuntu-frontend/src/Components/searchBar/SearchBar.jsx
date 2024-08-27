@@ -49,7 +49,7 @@ const SearchBar = ({ customStyles }) => {
         borderRadius: "20px",
         padding: "1px",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-        width: "90vw",
+        width: { xs: "90vw", sm: "80vw", md: "60vw", lg: "50vw" }, // Ajusta el ancho según el tamaño de la pantalla
         border: "0",
         zIndex: "10",
         ...customStyles,

@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { Drawer, IconButton, List, ListItemButton, ListItemText, Box, useTheme, Typography } from "@mui/material";
+import { Drawer, IconButton, List, ListItemButton, ListItemText, Box, useTheme, Typography, useMediaQuery } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
-import UseAuth from '../../token/jwt/UseAuth'
+import UseAuth from '../../token/jwt/UseAuth';
 
 const DrawerComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { user } = UseAuth();
-
   const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg')); // Verifica si es vista de escritorio
 
   const toggleDrawer = (open) => (event) => {
     setIsOpen(open);
@@ -85,6 +85,7 @@ const DrawerComponent = () => {
             top: "7vh",
             height: `calc(100% - ${anchorEl ? anchorEl.getBoundingClientRect().bottom : 0}px)`,
             width: "16rem",
+            left: isDesktop ? "18rem" : "0", // Aplica left solo en desktop
           },
         }}
       >
