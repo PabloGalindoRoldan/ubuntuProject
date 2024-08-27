@@ -7,7 +7,7 @@ import { getCategories } from "../../../../utils/services/dashboard/ServiceCateg
 import { ModalAlert } from "../../../shared";
 import { getCountries } from "../../../../utils/services/dashboard/ServiceCountry";
 import { getProvincias } from "../../../../utils/services/dashboard/ServiceProvince";
-import { ServicePutImage, ServiceDeleteImage } from "../../../../utils/ServiceImage";
+import { ServicePutImage, ServiceDeleteImage, ServiceUploadImage } from "../../../../utils/ServiceImage";
 
 const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
   const [name, setName] = useState("");
@@ -124,6 +124,20 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
   const handleMasInformacionChange = (event) => {
     setMoreInformation(event.target.value);
   };
+
+  const handleUploadImage = async (base64Image, fileName) => {
+    const token = sessionStorage.getItem("token");
+  
+    try {
+      await ServiceUploadImage(base64Image, microBusinessId, token);
+      
+      // Hacer un nuevo fetch después de subir la imagen para actualizar el estado de las imágenes
+      await getMicroEmprendimiento(microBusinessId);
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+    }
+  };
+
 
   const handleEditImage = async (id, base64Image) => {
     const token = sessionStorage.getItem("token");
@@ -370,7 +384,13 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
           />
         </Box>
 
-        <ImageEdit images={images} onEditImage={handleEditImage} onDeleteImage={handleDeleteImage} />
+        <ImageEdit 
+        images={images} 
+        onEditImage={handleEditImage} 
+        onDeleteImage={handleDeleteImage} 
+        onAddImage={handleUploadImage}
+
+        />
 
         <ReusableButton nombre="Guardar cambios" handleClick={handleSubmit} />
       </Box>
