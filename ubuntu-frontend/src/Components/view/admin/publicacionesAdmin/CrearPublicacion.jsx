@@ -103,9 +103,7 @@ const CrearPublicacion = () => {
                     publicationId: publicationId,
                 })
             );
-
-            const uploadResponses = await Promise.all(uploadPromises);
-            console.log('Images uploaded:', uploadResponses.map(res => res.data));
+            await Promise.all(uploadPromises);
         } catch (error) {
             console.error('Error uploading images:', error);
         }

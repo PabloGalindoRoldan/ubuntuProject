@@ -17,8 +17,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { ImageCarousel } from "../shared";
 
-const ExpandMoreButton = styled((props) => {
-  const {  ...other } = props;
+const ExpandMoreButton = styled(({ expand, ...other }) => {
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",

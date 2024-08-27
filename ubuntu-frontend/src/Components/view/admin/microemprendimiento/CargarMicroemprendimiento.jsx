@@ -212,6 +212,7 @@ const CargarMicroemprendimiento = () => {
             marginRight: "7vh",
             color: "black",
           }}
+          component="div"
         >
           Completá el formulario para cargar un Microemprendimiento
         </Typography>
@@ -319,42 +320,42 @@ const CargarMicroemprendimiento = () => {
           </FormControl>
         </Box>
         <Box sx={{ mt: "20px", width: "90%" }}>
-          <TextField
-            fullWidth
-            label="Descripción del Microemprendimiento*"
-            variant="outlined"
-            value={descripcion}
-            onChange={handleDescripcionChange}
-            helperText={
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <span>Máximo 300 caracteres</span>
-                <span>{`${descripcion.length}/300`}</span>
-              </Box>
-            }
-            inputProps={{ maxLength: 300 }}
-            multiline
-            rows={4}
-          />
-        </Box>
+  <TextField
+    fullWidth
+    label="Descripción del Microemprendimiento*"
+    variant="outlined"
+    value={descripcion}
+    onChange={handleDescripcionChange}
+    helperText={
+      <span style={{ display: "flex", justifyContent: "space-between" }}>
+        <span>Máximo 300 caracteres</span>
+        <span>{`${descripcion.length}/300`}</span>
+      </span>
+    }
+    inputProps={{ maxLength: 300 }}
+    multiline
+    rows={4}
+  />
+</Box>
 
-        <Box sx={{ mt: "20px", width: "90%" }}>
-          <TextField
-            fullWidth
-            label="Más información del Microemprendedor*"
-            variant="outlined"
-            value={moreInformation}
-            onChange={handleMoreInformationChange}
-            helperText={
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <span>Máximo 300 caracteres</span>
-                <span>{`${moreInformation.length}/300`}</span>
-              </Box>
-            }
-            inputProps={{ maxLength: 300 }}
-            multiline
-            rows={4}
-          />
-        </Box>
+<Box sx={{ mt: "20px", width: "90%" }}>
+  <TextField
+    fullWidth
+    label="Más información del Microemprendedor*"
+    variant="outlined"
+    value={moreInformation}
+    onChange={handleMoreInformationChange}
+    helperText={
+      <span style={{ display: "flex", justifyContent: "space-between" }}>
+        <span>Máximo 300 caracteres</span>
+        <span>{`${moreInformation.length}/300`}</span>
+      </span>
+    }
+    inputProps={{ maxLength: 300 }}
+    multiline
+    rows={4}
+  />
+</Box>
 
         <Box sx={{ mt: "20px", width: "90%", display: "flex", justifyContent: "flex-end" }}>
           <Box>

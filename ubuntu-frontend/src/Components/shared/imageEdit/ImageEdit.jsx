@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
   const [selectedImageId, setSelectedImageId] = useState(null);
-  const [setNewImageFile] = useState(null);
+  const [newImageFile, setNewImageFile] = useState(null);
 
   const handleFileChange = async (event) => {
     if (selectedImageId && event.target.files[0]) {

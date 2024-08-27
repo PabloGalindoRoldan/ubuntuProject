@@ -24,7 +24,8 @@ const ShowMyGoogleUserName = () => {
     };
 
     const handlePerfil = () => {
-        navigate('/my-profile');
+        setShowLogoutButton(false);
+        navigate('/admin/dashboard');
     };
 
     return (
