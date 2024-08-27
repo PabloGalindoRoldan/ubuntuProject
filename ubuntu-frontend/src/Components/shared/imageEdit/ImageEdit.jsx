@@ -13,11 +13,11 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage, onAddImage }) => {
     const base64Array = [];
 
     fileArray.forEach(file => {
-      console.log("Archivo seleccionado:", file); // Agregar console.log para ver el archivo
+      // console.log("Archivo seleccionado:", file); // Agregar console.log para ver el archivo
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64Image = reader.result.split(',')[1];
-        console.log("Código base64 del archivo:", base64Image); // Agregar console.log para ver el código base64
+        // console.log("Código base64 del archivo:", base64Image); // Agregar console.log para ver el código base64
 
         base64Array.push({ file, base64: base64Image });
 
