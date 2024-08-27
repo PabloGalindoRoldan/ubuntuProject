@@ -1,32 +1,55 @@
-import { Box, IconButton, Input } from "@mui/material";
+import { Box, IconButton, Input, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 
-const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
+const ImageEdit = ({ images, onEditImage, onDeleteImage, onAddImage }) => {
   const [selectedImageId, setSelectedImageId] = useState(null);
-  const [setNewImageFile] = useState(null);
+  const [newImageName, setNewImageName] = useState(""); 
+  const maxImages = 3;
 
   const handleFileChange = async (event) => {
-    if (selectedImageId && event.target.files[0]) {
-      const file = event.target.files[0];
+    const fileArray = Array.from(event.target.files);
+    const base64Array = [];
+
+    fileArray.forEach(file => {
       const reader = new FileReader();
-      
-      reader.onloadend = async () => {
+      reader.onloadend = () => {
         const base64Image = reader.result.split(',')[1];
-        await onEditImage(selectedImageId, base64Image);
-        setSelectedImageId(null); 
-        setNewImageFile(null); 
+
+        base64Array.push({ file, base64: base64Image });
+
+        if (base64Array.length === fileArray.length) {
+          if (selectedImageId) {
+            if (typeof onEditImage === "function") {
+              onEditImage(selectedImageId, base64Array[0].base64);
+              setSelectedImageId(null);
+            }
+          } else {
+            if (typeof onAddImage === "function") {
+              base64Array.forEach(({ base64, file }) => {
+                onAddImage(base64, file.name);
+              });
+            }
+          }
+          setNewImageName("");
+        }
       };
-      
       reader.readAsDataURL(file);
-    }
+    });
   };
 
   const handleEditClick = (id) => {
     setSelectedImageId(id);
     document.getElementById('image-input').click(); 
   };
+
+  const handleAddClick = () => {
+    setSelectedImageId(null);
+    document.getElementById('image-input').click(); 
+  };
+
+  const emptyBoxes = maxImages - images.length;
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '20px', width: '90%' }}>
@@ -42,11 +65,11 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
             sx={{ 
               position: 'absolute', 
               top: 8, 
-              left: 8, 
+              left: 8,
               bgcolor: 'rgba(0, 0, 0, 0.5)', 
               color: 'white'
             }}
-            onClick={() => handleEditClick(image.id)} 
+            onClick={() => handleEditClick(image.id)}
           >
             <EditIcon />
           </IconButton>
@@ -57,20 +80,47 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage }) => {
               top: 8, 
               right: 8, 
               bgcolor: 'rgba(0, 0, 0, 0.5)', 
-              color: 'white' 
+              color: 'white'
             }}
             onClick={() => onDeleteImage(image.id)}
           >
             <DeleteIcon />
           </IconButton>
-          <Input
-            type="file"
-            id="image-input"
-            style={{ display: 'none' }}
-            onChange={handleFileChange}
-          />
         </Box>
       ))}
+      {[...Array(emptyBoxes)].map((_, index) => (
+        <Box key={`empty-${index}`} sx={{ position: 'relative', width: '30%', height: '150px', bgcolor: 'grey.300', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <IconButton
+            aria-label="agregar"
+            sx={{ 
+              width: '100%',
+              height: '13vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: '5px',
+              borderColor: 'red',
+              color: 'black',
+              fontSize: '0.65rem'
+            }}
+            onClick={handleAddClick}
+          >
+            AÑADIR IMAGEN
+          </IconButton>
+          {newImageName && (
+            <Typography sx={{ fontSize: '0.8rem', mt: '10px', color: 'black', textAlign: 'center' }}>
+              {newImageName}
+            </Typography>
+          )}
+        </Box>
+      ))}
+      <Input
+        type="file"
+        id="image-input"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+        multiple
+      />
     </Box>
   );
 };

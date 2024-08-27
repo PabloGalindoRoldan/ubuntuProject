@@ -17,7 +17,9 @@ function SolicitudContacto() {
     const fetchData = async () => {
         try {
             const responseNoManage = await new ServiceHttp("/contact/search/nomanage").get();
+            responseNoManage.sort((a,b) => a.id - b.id)
             const responseManage = await new ServiceHttp("/contact/search/manage").get();
+            responseManage.sort((a,b) => b.id - a.id)
             const data = responseNoManage.concat(responseManage);
             setData(data);
         } catch (error) {

@@ -9,7 +9,8 @@ import theme from '../../../theme/theme';
 
 const SearchResults = () => {
     const { searchResults } = useContext(SearchContext);
-    
+    const filteredSearchResults = searchResults.filter(item => !item.managed);
+
     return (
         <>
                 <Box 
@@ -37,16 +38,12 @@ const SearchResults = () => {
                     }}>
                     Resultados de tu búsqueda
                 </Typography>
-                {searchResults.length > 0 ? (
+                {filteredSearchResults.length > 0 ? (
                     <Grid container spacing={2}>
-                        {searchResults.map((result, index) => (
+                        {filteredSearchResults.map((result, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>
                                 <CustomCard
-                                    images={[
-                                        "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/jkwmzyleauq1q7udo7ry.jpg",
-                                        "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/rwdiwne8x5u4abh4s7ol.jpg",
-                                        "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/l1oddcketqyp98imd28p.jpg"
-                                        ]}
+                                    images={result.images.map((item) => item.url)}
                                     title={result.name}
                                     subtitle={result.subTitle}
                                     category={result.categoryDescription}

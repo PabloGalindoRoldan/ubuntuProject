@@ -7,7 +7,7 @@ import { getCategories } from "../../../../utils/services/dashboard/ServiceCateg
 import { ModalAlert } from "../../../shared";
 import { getCountries } from "../../../../utils/services/dashboard/ServiceCountry";
 import { getProvincias } from "../../../../utils/services/dashboard/ServiceProvince";
-import { ServicePutImage, ServiceDeleteImage } from "../../../../utils/ServiceImage";
+import { ServicePutImage, ServiceDeleteImage, ServiceUploadImage } from "../../../../utils/ServiceImage";
 
 const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
   const [name, setName] = useState("");
@@ -48,7 +48,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
       setDescription(data.description);
       setMoreInformation(data.moreInformation);
       setSubTitle(data.subTitle);
-      setImages(data.images.map((img) => ({ id: img.id, url: `${img.url}?t=${new Date().getTime()}` }))); 
+      setImages(data.images.map((img) => ({ id: img.id, url: `${img.url}?t=${new Date().getTime()}` })));
 
 
       if (matchedCountry) {
@@ -100,7 +100,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
     if (categories.length > 0 && countriess.length > 0) {
       getMicroEmprendimiento(microBusinessId);
     }
-  }, [categories, countriess, microBusinessId]);
+  }, [categories, countriess, provincess, microBusinessId]);
 
   const handleCategoriaChange = (event) => {
     setCategoria(event.target.value);
@@ -110,7 +110,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
     const selectedCountryId = event.target.value;
     setCountry(selectedCountryId);
     await fetchProvincias(selectedCountryId);
-    setProvince(""); 
+    setProvince("");
   };
 
   const handleProvinciaChange = (event) => {
@@ -124,6 +124,20 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
   const handleMasInformacionChange = (event) => {
     setMoreInformation(event.target.value);
   };
+
+  const handleUploadImage = async (base64Image, fileName) => {
+    const token = sessionStorage.getItem("token");
+  
+    try {
+      await ServiceUploadImage(base64Image, microBusinessId, token);
+      
+      // Hacer un nuevo fetch después de subir la imagen para actualizar el estado de las imágenes
+      await getMicroEmprendimiento(microBusinessId);
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+    }
+  };
+
 
   const handleEditImage = async (id, base64Image) => {
     const token = sessionStorage.getItem("token");
@@ -151,7 +165,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
 
     try {
       await ServiceDeleteImage(id, token);
-      setImages(images.filter((img) => img.id !== id)); // Actualiza el estado para eliminar la imagen de la UI
+      setImages(images.filter((img) => img.id !== id));
     } catch (error) {
       console.error("Error al eliminar la imagen:", error);
     }
@@ -180,9 +194,9 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
       setModalOpen(true);
 
       setTimeout(async () => {
-        await getMicroEmprendimiento(microBusinessId); 
+        await getMicroEmprendimiento(microBusinessId);
         onEditSuccess();
-      }, 2000); 
+      }, 2000);
     } catch (error) {
       console.error("Error al actualizar el microemprendimiento:", error);
       setLoading(false);
@@ -309,7 +323,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
           <FormControl fullWidth variant="outlined">
             <InputLabel>Provincia/Estado*</InputLabel>
             <Select
-              value={province}
+              value={province || ""}
               onChange={handleProvinciaChange}
               label="Provincia/Estado*"
               MenuProps={{
@@ -340,10 +354,10 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
             value={description}
             onChange={handleDescripcionChange}
             helperText={
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Máximo 300 caracteres</span>
                 <span>{`${description.length}/300`}</span>
-              </Box>
+              </span>
             }
             inputProps={{ maxLength: 300 }}
             multiline
@@ -359,10 +373,10 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
             value={moreInformation}
             onChange={handleMasInformacionChange}
             helperText={
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Máximo 300 caracteres</span>
                 <span>{`${moreInformation.length}/300`}</span>
-              </Box>
+              </span>
             }
             inputProps={{ maxLength: 300 }}
             multiline
@@ -370,7 +384,13 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
           />
         </Box>
 
-        <ImageEdit images={images} onEditImage={handleEditImage} onDeleteImage={handleDeleteImage} />
+        <ImageEdit 
+        images={images} 
+        onEditImage={handleEditImage} 
+        onDeleteImage={handleDeleteImage} 
+        onAddImage={handleUploadImage}
+
+        />
 
         <ReusableButton nombre="Guardar cambios" handleClick={handleSubmit} />
       </Box>

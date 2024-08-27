@@ -20,14 +20,12 @@ export const AuthProvider = ({ children }) => {
                 id: decodedToken.id,
             };
             setUser(userData);
-            console.log('User loaded successfully:', userData);
         } else {
             setUser(null);
         }
     };
 
     const logout = () => {
-        console.log('Logging out user:', user);
         setToken(null);
         setUser(null);
     };
