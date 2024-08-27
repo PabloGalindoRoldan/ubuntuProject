@@ -100,7 +100,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
     if (categories.length > 0 && countriess.length > 0) {
       getMicroEmprendimiento(microBusinessId);
     }
-  }, [categories, countriess, microBusinessId]);
+  }, [categories, countriess, provincess, microBusinessId]);
 
   const handleCategoriaChange = (event) => {
     setCategoria(event.target.value);
@@ -309,7 +309,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
           <FormControl fullWidth variant="outlined">
             <InputLabel>Provincia/Estado*</InputLabel>
             <Select
-              value={province}
+              value={province || ""}
               onChange={handleProvinciaChange}
               label="Provincia/Estado*"
               MenuProps={{
