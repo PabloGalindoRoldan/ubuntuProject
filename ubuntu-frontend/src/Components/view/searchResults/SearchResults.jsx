@@ -9,7 +9,8 @@ import theme from '../../../theme/theme';
 
 const SearchResults = () => {
     const { searchResults } = useContext(SearchContext);
-    
+    const filteredSearchResults = searchResults.filter(item => !item.managed);
+
     return (
         <>
                 <Box 
@@ -37,9 +38,9 @@ const SearchResults = () => {
                     }}>
                     Resultados de tu búsqueda
                 </Typography>
-                {searchResults.length > 0 ? (
+                {filteredSearchResults.length > 0 ? (
                     <Grid container spacing={2}>
-                        {searchResults.map((result, index) => (
+                        {filteredSearchResults.map((result, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>
                                 <CustomCard
                                     images={result.images.map((item) => item.url)}
