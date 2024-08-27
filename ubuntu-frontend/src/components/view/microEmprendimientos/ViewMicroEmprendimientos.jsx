@@ -275,7 +275,7 @@ const ViewMicroEmprendimientos = () => {
               <Grid item xs={12} sm={6} md={4} key={item.id}>
                 <CustomCard
                   id={item.id}
-                  images={item.images}
+                  images={item.images.map((item) => item.url)}
                   title={item.name}
                   subtitle={item.subTitle}
                   category={item.categoryDescription}

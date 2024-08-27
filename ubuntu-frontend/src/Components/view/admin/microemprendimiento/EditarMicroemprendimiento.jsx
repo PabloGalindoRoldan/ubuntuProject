@@ -48,7 +48,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
       setDescription(data.description);
       setMoreInformation(data.moreInformation);
       setSubTitle(data.subTitle);
-      setImages(data.images.map((img) => ({ id: img.id, url: `${img.url}?t=${new Date().getTime()}` }))); 
+      setImages(data.images.map((img) => ({ id: img.id, url: `${img.url}?t=${new Date().getTime()}` })));
 
 
       if (matchedCountry) {
@@ -110,7 +110,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
     const selectedCountryId = event.target.value;
     setCountry(selectedCountryId);
     await fetchProvincias(selectedCountryId);
-    setProvince(""); 
+    setProvince("");
   };
 
   const handleProvinciaChange = (event) => {
@@ -165,7 +165,7 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
 
     try {
       await ServiceDeleteImage(id, token);
-      setImages(images.filter((img) => img.id !== id)); // Actualiza el estado para eliminar la imagen de la UI
+      setImages(images.filter((img) => img.id !== id));
     } catch (error) {
       console.error("Error al eliminar la imagen:", error);
     }
@@ -194,9 +194,9 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
       setModalOpen(true);
 
       setTimeout(async () => {
-        await getMicroEmprendimiento(microBusinessId); 
+        await getMicroEmprendimiento(microBusinessId);
         onEditSuccess();
-      }, 2000); 
+      }, 2000);
     } catch (error) {
       console.error("Error al actualizar el microemprendimiento:", error);
       setLoading(false);
@@ -354,10 +354,10 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
             value={description}
             onChange={handleDescripcionChange}
             helperText={
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Máximo 300 caracteres</span>
                 <span>{`${description.length}/300`}</span>
-              </Box>
+              </span>
             }
             inputProps={{ maxLength: 300 }}
             multiline
@@ -373,10 +373,10 @@ const EditarMicroemprendimiento = ({ microBusinessId, onEditSuccess }) => {
             value={moreInformation}
             onChange={handleMasInformacionChange}
             helperText={
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Máximo 300 caracteres</span>
                 <span>{`${moreInformation.length}/300`}</span>
-              </Box>
+              </span>
             }
             inputProps={{ maxLength: 300 }}
             multiline

@@ -11,7 +11,7 @@ const PublicacionesAdmin = () => {
     const [data, setData] = useState([]);
     const [focusedCardId, setFocusedCardId] = useState(null);
     const [editingId, setEditingId] = useState(null);
-    const [ setDeleteId] = useState(null);
+    const [deleteId, setDeleteId] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalStatus, setModalStatus] = useState("success");
     const [modalTitle, setModalTitle] = useState("");
