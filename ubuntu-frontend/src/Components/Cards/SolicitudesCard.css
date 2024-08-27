@@ -1,0 +1,15 @@
+.solicitudesCard__orangeDot{
+    width: 16px;
+    height: 16px;
+    background-color: #B86B11;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.solicitudesCard__greenDot{
+    width: 16px;
+    height: 16px;
+    background-color: #1D9129;
+    border-radius: 50%;
+    margin: 5px;
+}

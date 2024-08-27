@@ -1,0 +1,47 @@
+.login__container{
+    height: 93vh; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../../assets/img/fondo ingreso registro.jpg");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.login__container__card{
+    height: 50vh;
+    width: 96vw;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    padding-bottom: 5vh;
+    border-radius: 12px !important;
+}
+
+.login__container__card__titulo{
+    text-align: center;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.login__container__card__logoContainer{
+    display: flex;
+    height: 25%;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+}
+
+.login__container__card__logoContainer > img{
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}

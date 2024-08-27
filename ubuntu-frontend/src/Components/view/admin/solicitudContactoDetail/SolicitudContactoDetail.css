@@ -1,0 +1,66 @@
+.solicitudContactoDetail__orangeDot{
+    width: 24px;
+    height: 24px;
+    background-color: #B86B11;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.solicitudContactoDetail__greenDot{
+    width: 24px;
+    height: 24px;
+    background-color: #1D9129;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.field__label {
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    font-size: 14px;
+    font-family: 'Lato';
+    font-weight: 500;
+    color: #093C59;
+    background-color: #fff;
+    padding: 0 4px;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+.field__input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #090909;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #495057;
+    outline: none;
+    pointer-events: none;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    height: 50px;
+}
+
+.field__textArea{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #090909;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #495057;
+    outline: none;
+    resize: vertical;
+    min-height: 20vh;
+    overflow: auto;
+    pointer-events: none;
+    line-height: 20px;
+    font-family: 'Lato';
+    font-size: 16px;
+    font-weight: 400;
+}
+

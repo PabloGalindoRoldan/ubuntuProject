@@ -1,0 +1,77 @@
+[
+  {
+    "images": [
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/jkwmzyleauq1q7udo7ry.jpg",
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/rwdiwne8x5u4abh4s7ol.jpg",
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/l1oddcketqyp98imd28p.jpg"
+    ],
+    "title": "EcoSenda",
+    "subtitle": "Finca agroecológica",
+    "category": "Agroecología/Orgánicos/Alimentación saludable",
+    "location": "Tunuyán, Mendoza, Argentina",
+    "descriptions": "Proyecto A es una plataforma educativa innovadora que ofrece cursos interactivos y herramientas de aprendizaje avanzadas para estudiantes de todas las edades.",
+    "moreInformation": "Nació del sueño de restaurar la salud y adoptar un estilo de vida ideal. Este proyecto familiar creció fundamentado en la permacultura, biodinámica y agroecología, comprometiéndose con la soberanía alimentaria, el bienestar, el regreso al campo, la venta directa y la dignidad de la vida campesina.."
+  },
+
+
+  
+  {
+    "images": [
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/rwdiwne8x5u4abh4s7ol.jpg",
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/l1oddcketqyp98imd28p.jpg",
+     "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/jkwmzyleauq1q7udo7ry.jpg"
+    ],
+    "title": "Proyecto B",
+    "subtitle": "Iniciativa Ecológica",
+    "category": "Economía social/Desarrollo local/Inclusión financiera",
+    "location": "Ciudad B, País B",
+    "descriptions": "Proyecto B se dedica a la restauración de ecosistemas locales a través de prácticas de conservación innovadoras y educación comunitaria sobre sostenibilidad.",
+    "moreInformation": "Nació del sueño de restaurar la salud y adoptar un estilo de vida ideal. Este proyecto familiar creció fundamentado en la permacultura, biodinámica y agroecología, comprometiéndose con la soberanía alimentaria, el bienestar, el regreso al campo, la venta directa y la dignidad de la vida campesina.."
+  },
+
+  {
+    "images": [
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/rwdiwne8x5u4abh4s7ol.jpg",
+     "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/jkwmzyleauq1q7udo7ry.jpg",
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/l1oddcketqyp98imd28p.jpg"
+    ],
+    "title": "Proyecto B",
+    "subtitle": "Iniciativa Ecológica",
+    "category": "Economía social/Desarrollo local/Inclusión financiera",
+    "location": "Ciudad B, País B",
+    "descriptions": "Proyecto B se dedica a la restauración de ecosistemas locales a través de prácticas de conservación innovadoras y educación comunitaria sobre sostenibilidad.",
+    "moreInformation": "Nació del sueño de restaurar la salud y adoptar un estilo de vida ideal. Este proyecto familiar creció fundamentado en la permacultura, biodinámica y agroecología, comprometiéndose con la soberanía alimentaria, el bienestar, el regreso al campo, la venta directa y la dignidad de la vida campesina.."
+  },
+
+  
+  {
+    "images": [
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/l1oddcketqyp98imd28p.jpg",
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/jkwmzyleauq1q7udo7ry.jpg",
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/rwdiwne8x5u4abh4s7ol.jpg"
+    ],
+    "title": "Proyecto E",
+    "subtitle": "Plan alimenticio A+",
+    "category": "Conservación/Regeneración/Servicios ecosistémicos",
+    "location": "Ciudad E, País E",
+    "descriptions": "Proyecto E ofrece un espacio inclusivo para actividades culturales y educativas, promoviendo la diversidad y el intercambio cultural en la comunidad local.",
+    "moreInformation": "Nació del sueño de restaurar la salud y adoptar un estilo de vida ideal. Este proyecto familiar creció fundamentado en la permacultura, biodinámica y agroecología, comprometiéndose con la soberanía alimentaria, el bienestar, el regreso al campo, la venta directa y la dignidad de la vida campesina.."
+  },
+
+  {
+    "images": [
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/jkwmzyleauq1q7udo7ry.jpg",
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/rwdiwne8x5u4abh4s7ol.jpg",
+      "https://res.cloudinary.com/dnkaxvkr9/image/upload/v1719576387/l1oddcketqyp98imd28p.jpg"
+    ],
+    "title": "Proyecto E",
+    "subtitle": "Union Cultural Alimento",
+    "category": "Empresas/Organismos de impacto/Economía circular",
+    "location": "Ciudad E, País E",
+    "descriptions": "Proyecto E ofrece un espacio inclusivo para actividades culturales y educativas, promoviendo la diversidad y el intercambio cultural en la comunidad local.",
+    "moreInformation": "Nació del sueño de restaurar la salud y adoptar un estilo de vida ideal. Este proyecto familiar creció fundamentado en la permacultura, biodinámica y agroecología, comprometiéndose con la soberanía alimentaria, el bienestar, el regreso al campo, la venta directa y la dignidad de la vida campesina.."
+  }
+
+
+]
+

@@ -1,0 +1,10 @@
+.login__button__icon__background{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50%;
+    width: 1.2em; 
+    height: 1.2em; 
+    margin-right: 0.5em; 
+}
