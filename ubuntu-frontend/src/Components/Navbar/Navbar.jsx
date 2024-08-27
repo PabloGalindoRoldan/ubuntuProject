@@ -23,7 +23,7 @@ function Navbar() {
             src="../../src/assets/img/logoubuntu.png"
             alt="Ubuntu Logo"
             className="navBar__logo"
-            style={{ cursor: "pointer", marginTop: "12px" }}
+            style={{ cursor: "pointer", marginTop: "3px" }}
             onClick={() => navigate("/")}
           />
         </Grid>
