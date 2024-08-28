@@ -11,7 +11,8 @@ const CardMicrobusinessMonthly = () => {
 
   const getMicroEmprendimientos = async () => {
     try {
-      const data = await microemprendimientos.get("search=");
+      const recievedData = await microemprendimientos.get("search=");
+      const data = recievedData.filter(item => !item.managed);
       if (data.error) throw data.error;
       setMicroBusiness(Array.isArray(data) ? data : []);
     } catch (error) {
