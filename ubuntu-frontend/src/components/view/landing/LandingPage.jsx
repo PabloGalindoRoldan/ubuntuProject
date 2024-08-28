@@ -130,7 +130,6 @@ const LandingPage = () => {
                 fontSize: "22px",
                 lineHeight: "25px",
                 minWidth: "240px",
-                width: "90vw",
               }}
             >
               Objetivos de Ubuntu

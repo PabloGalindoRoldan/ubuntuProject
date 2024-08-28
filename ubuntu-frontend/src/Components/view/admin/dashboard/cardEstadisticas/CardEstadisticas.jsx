@@ -26,7 +26,7 @@ const CardEstadisticas = () => {
     };
 
     return (
-        <Box sx={{display: 'flex', justifyContent: "space-between", width: '90vw'}}>
+        <Box sx={{display: 'flex', justifyContent: "space-between", width: 'auto', gap: '20px'}}>
             <Box sx={{width: '43vw', border: '2px solid #1D9129', borderRadius: '8px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px'}}>
                 <Typography sx={{fontFamily: 'Lato', fontWeight: '400', fontSize: '18px', lineHeight: '25px'}}>
                     Gestionados

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const ImageEdit = ({ images, onEditImage, onDeleteImage, onAddImage }) => {
   const [selectedImageId, setSelectedImageId] = useState(null);
-  const [newImageName, setNewImageName] = useState(""); // Estado para almacenar el nombre del archivo
+  const [newImageName, setNewImageName] = useState(""); 
   const maxImages = 3;
 
   const handleFileChange = async (event) => {
@@ -13,30 +13,25 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage, onAddImage }) => {
     const base64Array = [];
 
     fileArray.forEach(file => {
-      // console.log("Archivo seleccionado:", file); // Agregar console.log para ver el archivo
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64Image = reader.result.split(',')[1];
-        // console.log("Código base64 del archivo:", base64Image); // Agregar console.log para ver el código base64
 
         base64Array.push({ file, base64: base64Image });
 
         if (base64Array.length === fileArray.length) {
           if (selectedImageId) {
-            // Si se está editando una imagen existente
             if (typeof onEditImage === "function") {
               onEditImage(selectedImageId, base64Array[0].base64);
               setSelectedImageId(null);
             }
           } else {
-            // Si se está añadiendo una nueva imagen
             if (typeof onAddImage === "function") {
               base64Array.forEach(({ base64, file }) => {
                 onAddImage(base64, file.name);
               });
             }
           }
-          // Reiniciar el estado después de la carga
           setNewImageName("");
         }
       };
@@ -46,12 +41,12 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage, onAddImage }) => {
 
   const handleEditClick = (id) => {
     setSelectedImageId(id);
-    document.getElementById('image-input').click(); // Simular clic en el input de archivo
+    document.getElementById('image-input').click(); 
   };
 
   const handleAddClick = () => {
     setSelectedImageId(null);
-    document.getElementById('image-input').click(); // Simular clic en el input de archivo
+    document.getElementById('image-input').click(); 
   };
 
   const emptyBoxes = maxImages - images.length;
@@ -112,7 +107,6 @@ const ImageEdit = ({ images, onEditImage, onDeleteImage, onAddImage }) => {
           >
             AÑADIR IMAGEN
           </IconButton>
-          {/* Mostrar el nombre del archivo si se seleccionó */}
           {newImageName && (
             <Typography sx={{ fontSize: '0.8rem', mt: '10px', color: 'black', textAlign: 'center' }}>
               {newImageName}

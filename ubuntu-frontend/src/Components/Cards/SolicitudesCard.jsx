@@ -10,7 +10,7 @@ const SolicitudesCard = ({ title, microBusinessId, dateCreated, dateUpdated, sta
 
     return (
         <Card sx={{
-            width: '94vw',
+            width: 'auto',
             paddingTop: '8px',
             paddingBottom: '8px',
             borderRadius: '16px',
