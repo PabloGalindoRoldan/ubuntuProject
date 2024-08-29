@@ -1,0 +1,45 @@
+services:
+  ubuntudb:
+    image: mariadb:latest
+    container_name: ubuntudb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_USER_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_USER_PASSWORD}
+    volumes:
+      - ubuntudb_data:/var/lib/mysql
+    networks:
+      - ubuntu-net
+    ports:
+      - "3306:3306"  # Asegúrate de que este puerto esté disponible
+
+  ubuntu-back:
+    build:
+      context: .  # Ruta del Dockerfile
+    container_name: ubuntu-back
+    environment:
+      DB_SERVER_URL: ${DB_SERVER_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_USER_PASSWORD: ${DB_USER_PASSWORD}
+      CLOUDINARY_NAME: ${CLOUDINARY_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      REDIRECT_URI: ${REDIRECT_URI}
+      SECRET_KEY: ${SECRET_KEY}
+      FRONTEND_URL: ${FRONTEND_URL}
+      FRONTEND_URL_UNAUTHORIZED: ${FRONTEND_URL_UNAUTHORIZED}
+    depends_on:
+      - ubuntudb
+    networks:
+      - ubuntu-net
+    ports:
+      - "8081:8081"  # Mapea el puerto de la aplicación al servidor
+
+volumes:
+  ubuntudb_data:
+
+networks:
+  ubuntu-net:

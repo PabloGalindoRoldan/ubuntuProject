@@ -29,5 +29,5 @@ The Ubuntu API made using Spring and Java.
 
 ## API Reference
 
-After running the project locally, all the documentation is at (change PORT number if necessary): http://localhost:8080/api/v1/swagger-ui/index.html
+After running the project locally, all the documentation is at (change PORT number if necessary): http://localhost:8081/api/v1/swagger-ui/index.html
 
