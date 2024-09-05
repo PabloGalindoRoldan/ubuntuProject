@@ -1,30 +1,24 @@
 import SearchBar from "../../searchBar/SearchBar";
-import { 
-  Box,  
-} from "@mui/material";
+import { Box } from "@mui/material";
 
 const ViewSearchBar = () => {
-  
-
   return (
     <Box>
       <Box
         sx={{
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "488px",
+          height: { xs: "300px", sm: "400px", md: "488px" }, 
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "center",
-          padding: "20px 20px 0",
+          padding: { xs: "10px 10px 0", md: "20px 20px 0" }, 
           position: "relative",
         }}
       >
         <SearchBar />
-        
       </Box>
-        
     </Box>
   );
 };

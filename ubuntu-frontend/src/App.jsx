@@ -24,6 +24,7 @@ import ChatbotForms from "./components/view/formsView/ViewFomrs";
 import CreateQuestionsForm from "./components/chatBot/forms/CreateQuestions";
 import EditQuestionForm from "./components/chatBot/forms/EditQuestionForm";
 import DeleteQuestionForm from "./components/chatBot/forms/DeleteQuestion";
+import "./App.css";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <SearchProvider>
           <Router>
             <div
+             className="container"
               style={{
                 display: "flex",
                 flexDirection: "column",

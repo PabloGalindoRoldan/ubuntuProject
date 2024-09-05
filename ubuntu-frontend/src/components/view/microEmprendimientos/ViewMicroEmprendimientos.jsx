@@ -20,17 +20,18 @@ const ViewMicroEmprendimientos = () => {
   const location = useLocation();
   const category = location.state?.category;
 
-  useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_BASE_URL}/microbusiness/findAll`)
-      .then(response => {
-        setData(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+useEffect(() => {
+  axios.get(`${import.meta.env.VITE_API_BASE_URL}/microbusiness/findAll`)
+    .then(response => {
+      const filteredData = response.data.filter(item => !item.managed);
+      setData(filteredData);
+      setLoading(false);
+    })
+    .catch(error => {
+      setError(error);
+      setLoading(false);
+    });
+}, []);
 
   useEffect(() => {
     if (category) {
@@ -203,7 +204,7 @@ const ViewMicroEmprendimientos = () => {
                 picUrl="Agroecologia.png"
                 contentText="Agroecología/Orgánicos/ Alimentación saludable"
                 bgColor="white"
-                onClick={() => handleCategoryClick('Agroecología/Orgánicos/ Alimentación saludable')}
+                onClick={() => handleCategoryClick('Agroecología/Orgánicos/Alimentación saludable')}
               />
               <CategoryItem
                 picUrl="Conservacion.png"
