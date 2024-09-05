@@ -1,0 +1,7 @@
+.carousel-image {
+    border-radius: 16px; 
+    height: 15vh; 
+    object-fit: cover; 
+    width: 100%; 
+    display: block;
+}

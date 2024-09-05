@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Antipasto-ExtraBoldTrial';
+    src: url(./Antipasto/Antipasto-ExtraBoldTrial.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family:'Antipasto-ExtraLightTrial';
+    src: url(./Antipasto/Antipasto-ExtraLightTrial.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family:'Antipasto-RegularTrial';
+    src: url(./Antipasto/Antipasto-RegularTrial.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family:'big_noodle.titling';
+    src: url(./Bignoodle/big_noodle_titling.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'big_noodle_titling_oblique';
+    src: url(./Bignoodle/big_noodle_titling_oblique.ttf) format('truetype');
+    font-weight: normal;
+    font-style: oblique;
+}
